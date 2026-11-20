@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LineProof: classify service lines from old records</title>
+  <meta name="description" content="LineProof reads a water utility's old tap cards, permits and field notes and sorts each service line into the EPA lead inventory categories, with the quote and the rule behind every step." />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <header class="top">
+    <div class="wrap top-inner">
+      <a class="brand" href="/" aria-label="LineProof home">
+        <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="7" fill="#0E4F5C"/><path d="M6 12h8v8h12" stroke="#F6F4EF" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="14" cy="12" r="2.6" fill="#F3E3A3"/></svg>
+        <span>LineProof</span>
+      </a>
+      <nav class="toplinks" aria-label="Sections">
+        <a href="#results">Test results</a>
+        <a href="#how">How it decides</a>
+        <a href="https://github.com/StuartYo/lineproof" target="_blank" rel="noopener">Code</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="wrap intro">
+      <div class="intro-text">
+        <h1>Is this service line lead? Show the record that says so.</h1>
+        <p class="lede">US water utilities must sort every service line into <b>Lead</b>, <b>Galvanized requiring replacement</b>, <b>Non-lead</b> or <b>Unknown</b> by November 1, 2027. LineProof reads the old tap cards, permits and field notes, quotes the line behind each fact, and applies the federal rules in plain code.</p>
+      </div>
+      <div class="intro-steps" aria-label="How to use">
+        <ol>
+          <li><span>1</span>Pick a service line on the left.</li>
+          <li><span>2</span>Read the records; highlighted words are what the model pulled out.</li>
+          <li><span>3</span>Switch a fact off or change the state rule and watch the category follow.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="wrap modebar" aria-label="Mode">
+      <div class="seg" role="tablist">
+        <button role="tab" id="tab-recorded" aria-selected="true" class="on">Sample district (recorded runs)</button>
+        <button role="tab" id="tab-live" aria-selected="false">Paste your own records</button>
+      </div>
+      <p class="modenote" id="modenote">Made-up records for a made-up utility. Gemma 4's real outputs are saved; the checker and the rules run live in your browser.</p>
+    </section>
+
+    <section class="wrap desk" id="desk">
+      <aside class="panel lines" aria-label="Service lines">
+        <div class="panel-head">
+          <h2>Service lines</h2>
+          <button class="ghost small" id="export">Export CSV</button>
+        </div>
+        <div class="tally" id="tally"></div>
+        <div class="filter" role="group" aria-label="Show">
+          <button class="chipbtn on" data-set="dev">District sample</button>
+          <button class="chipbtn" data-set="external">EPA &amp; state examples</button>
+        </div>
+        <ul id="linelist" class="linelist"></ul>
+      </aside>
+
+      <section class="panel records" aria-label="Records">
+        <div class="panel-head"><h2 id="rec-title">Records</h2><span class="muted" id="rec-sub"></span></div>
+        <div id="live-form" class="live-form" hidden></div>
+        <div id="docs" class="docs"></div>
+      </section>
+
+      <section class="panel verdict" aria-label="Decision" aria-live="polite">
+        <div id="verdict"></div>
+      </section>
+    </section>
+
+    <section class="wrap results" id="results">
+      <h2>Test results</h2>
+      <p class="muted" id="results-sub"></p>
+      <div id="results-table"></div>
+      <p class="note" id="results-note"></p>
+    </section>
+
+    <section class="wrap how" id="how">
+      <h2>How it decides</h2>
+      <div class="how-grid">
+        <div>
+          <h3>The model reads</h3>
+          <p>Gemma 4 E2B runs on your own GPU through WebLLM. It returns facts only: which side of the line, which material, installed or removed, the date, and the exact words from the record. It never picks the category.</p>
+        </div>
+        <div>
+          <h3>Code checks</h3>
+          <p>A fact is dropped if its quote is not in the record, if the quote does not name the material claimed, or if a "lead" quote says "no lead". Staff memory, customer reports and predictions are set aside unless the state approved them.</p>
+        </div>
+        <div>
+          <h3>Rules decide</h3>
+          <p>Twelve rules from 40 CFR 141.2 and 141.84 and EPA's inventory guidance, written as code and tested. Each step on screen names its rule. When records conflict, it takes the cautious answer EPA recommends and says what would settle it.</p>
+        </div>
+      </div>
+      <div id="rule-table"></div>
+      <p class="note">Rules as of the Lead and Copper Rule Improvements (89 FR 86418, October 30, 2024; eCFR read November 2026). State rules differ on ban dates and which sources count; pick the state setting on each line. LineProof helps staff prepare an inventory for state review. It does not replace a field check, and it is not legal advice.</p>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    <span>MIT license. All addresses, records and the district are made up. The expected answers for the "EPA &amp; state examples" come from the documents linked on each case.</span>
+  </footer>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

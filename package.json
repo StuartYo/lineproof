@@ -1,0 +1,26 @@
+{
+  "name": "lineproof",
+  "version": "1.0.0",
+  "description": "Classify water service lines for the EPA lead inventory from old utility records. Gemma 4 reads in your browser; code applies the rules and shows its work.",
+  "type": "module",
+  "private": true,
+  "author": "Hua-I Yu",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --port 5179",
+    "build": "vite build",
+    "preview": "vite preview --port 5179",
+    "test": "vitest run",
+    "score": "node scripts/score.mjs"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/ibm-plex-sans": "^5.3.0",
+    "@mlc-ai/web-llm": "0.2.86"
+  },
+  "devDependencies": {
+    "playwright": "^1.62.1",
+    "vite": "^7.3.7",
+    "vitest": "^3.2.7"
+  }
+}

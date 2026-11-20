@@ -1,0 +1,11 @@
+{
+ "generated": "2026-11-20T12:00:32.922Z",
+ "model": null,
+ "arms": {
+  "plain": "Gemma 4 E2B alone, asked for the category",
+  "rules": "Gemma 4 E2B with all 11 rules pasted into the prompt",
+  "keyword": "No model: keyword matching + the same checker and rules",
+  "lineproof": "LineProof: Gemma reads, code checks quotes and applies the rules"
+ },
+ "sets": {}
+}

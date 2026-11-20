@@ -1,0 +1,48 @@
+[
+{"id":"hold01","title":"412 Alder Hollow Rd","settings":"federal","label":{"category":"LEAD","connector":"UNKNOWN","why":"Tap card shows lead on the system side, so any portion is lead regardless of the copper customer side."},"docs":[
+{"id":"D1","kind":"tap_card","title":"Tap card 412 Alder Hollow","date":"1952","text":"3/4 Pb svc, main to curb stop. Tapped by crew 2."},
+{"id":"D2","kind":"permit","title":"Plumbing permit re-pipe","date":"2009-05-14","text":"Meter to house replaced w/ 3/4 Cu type L."}]},
+{"id":"hold02","title":"88 Quarry St","settings":"federal","label":{"category":"LEAD","connector":"UNKNOWN","why":"System-side records disagree with no replacement between them and one says lead, so the line is lead."},"docs":[
+{"id":"D1","kind":"tap_card","title":"Tap card 88 Quarry","date":"1961","text":"Svc 3/4 Cu, main to curb."},
+{"id":"D2","kind":"work_order","title":"WO 7741 curb box repair","date":"1974-08-02","text":"Dug at curb stop, found LSL on street side. Repaired box lid only."}]},
+{"id":"hold03","title":"1507 Marlow Ave","settings":"federal_approved","label":{"category":"LEAD","connector":"LEAD","why":"State-approved staff statement says the service is lead main to meter, and the lead gooseneck is a connector that does not change the category."},"docs":[
+{"id":"D1","kind":"staff_statement","title":"Crew chief statement","date":"2019-03-11","text":"R. Delgado: saw lead svc main to meter when we swapped the corp stop, also a lead gooseneck at the main."}]},
+{"id":"hold04","title":"23 Fenwick Ct","settings":"federal","label":{"category":"LEAD","connector":"UNKNOWN","why":"Field check identified the whole service as lead by scratch test."},"docs":[
+{"id":"D1","kind":"field_check","title":"Pothole inspection","date":"2021-09-30","text":"Exposed 1\" svc at curb and basement wall. Soft grey, scratch test pos, Pb entire service."}]},
+{"id":"hold05","title":"760 Birchwood Ln","settings":"federal","label":{"category":"GRR","connector":"UNKNOWN","why":"System side was lead and was replaced, and the customer side is still galvanized, which is GRR."},"docs":[
+{"id":"D1","kind":"tap_card","title":"Tap card 760 Birchwood","date":"1948","text":"3/4 lead svc main to curb."},
+{"id":"D2","kind":"work_order","title":"WO 3318 curb side replacement","date":"2015-06-22","text":"Replaced system side lead w/ new copper at curb. Cust side G.I. remains, not touched."}]},
+{"id":"hold06","title":"9 Tamarack Way","settings":"federal","label":{"category":"GRR","connector":"NOT_LEAD","why":"Customer side is galvanized and no record shows the system side was never lead; the brass gooseneck is a non-lead connector."},"docs":[
+{"id":"D1","kind":"permit","title":"Permit 79-2213","date":"1979-04-03","text":"Meter to house 3/4 galv. Plumber: J. Haas."},
+{"id":"D2","kind":"work_order","title":"WO meter change","date":"2018-11-05","text":"Swapped meter. Goosneck is brass, not lead. No info on pipe at curb."}]},
+{"id":"hold07","title":"310 Sable Pond Rd","settings":"vermont","label":{"category":"GRR","connector":"UNKNOWN","why":"A bare year 1989 is not entirely after Vermont's July 1, 1989 ban, so the system side is unproven and the customer side is galvanized."},"docs":[
+{"id":"D1","kind":"tap_card","title":"Tap card 310 Sable Pond","date":"1989","text":"New svc installed, no material noted."},
+{"id":"D2","kind":"permit","title":"Plumbing permit","date":"1989","text":"Cust side 3/4 galv from meter to house."}]},
+{"id":"hold08","title":"55 Orchard Row","settings":"federal","label":{"category":"GRR","connector":"LEAD","why":"System-side records disagree and one says lead, and the customer side is galvanized; the lead pigtail does not change the category."},"docs":[
+{"id":"D1","kind":"tap_card","title":"Tap card 55 Orchard","date":"1957","text":"3/4 Pb w/ pigtail at main."},
+{"id":"D2","kind":"gis","title":"GIS service record","date":"2006","text":"Svc material: Cu (system side)."},
+{"id":"D3","kind":"permit","title":"Permit basement","date":"1990-02-20","text":"Meter to house 3/4 G.I."}]},
+{"id":"hold09","title":"1180 Cedar Bluff Dr","settings":"federal","label":{"category":"NON_LEAD","connector":"UNKNOWN","why":"Tap card and permit name copper for both sides and the installation is well after the ban."},"docs":[
+{"id":"D1","kind":"tap_card","title":"Tap card 1180 Cedar Bluff","date":"1995-07-18","text":"3/4 type K Cu main to curb."},
+{"id":"D2","kind":"permit","title":"Permit 95-0871","date":"1995-08-02","text":"Curb to house 3/4 Cu type L, new construction."}]},
+{"id":"hold10","title":"47 Ridgeline Blvd","settings":"california","label":{"category":"NON_LEAD","connector":"UNKNOWN","why":"System side installed in 1987, a whole year after California's 1986 ban, so the galvanized customer side is also non-lead."},"docs":[
+{"id":"D1","kind":"tap_card","title":"Tap card 47 Ridgeline","date":"1987","text":"Svc installed, no pipe type listed."},
+{"id":"D2","kind":"permit","title":"Plumbing permit","date":"1987","text":"Meter to house galv 3/4."}]},
+{"id":"hold11","title":"205 Dunmore St","settings":"federal","label":{"category":"NON_LEAD","connector":"UNKNOWN","why":"A later full renewal main to house overrides the older lead record on both sides and shows polyethylene."},"docs":[
+{"id":"D1","kind":"tap_card","title":"Tap card 205 Dunmore","date":"1958","text":"3/4 lead svc."},
+{"id":"D2","kind":"work_order","title":"WO 5502 full renewal","date":"2003-10-09","text":"Full svc renewal main to house, new 1\" PE poly pipe both sides."},
+{"id":"D3","kind":"field_check","title":"Meter pit check","date":"2022-04-12","text":"Opened meter pit, PEX/poly both sides of meter confirmed by insp."}]},
+{"id":"hold12","title":"6 Wren Hollow","settings":"federal_approved","label":{"category":"NON_LEAD","connector":"UNKNOWN","why":"State-approved staff statement says the whole service, main to house, is copper."},"docs":[
+{"id":"D1","kind":"staff_statement","title":"Field tech statement","date":"2016-02-08","text":"J. Ortiz: whole svc main to house is Cu, saw both ends at the meter change."}]},
+{"id":"hold13","title":"930 Linden Park Pl","settings":"federal","label":{"category":"UNKNOWN","connector":"UNKNOWN","why":"Only a building construction year is recorded, and a building date is never the pipe's date."},"docs":[
+{"id":"D1","kind":"gis","title":"Parcel record","date":"2024","text":"Year built 1994. Svc material not recorded."},
+{"id":"D2","kind":"permit","title":"Bldg permit","date":"1994","text":"New bldg constr, single family."}]},
+{"id":"hold14","title":"72 Cobble Run","settings":"federal","label":{"category":"UNKNOWN","connector":"UNKNOWN","why":"Year 1988 is not entirely after June 19, 1988 and no material is named."},"docs":[
+{"id":"D1","kind":"tap_card","title":"Tap card 72 Cobble Run","date":"1988","text":"svc installed 1988, size 3/4, matl blank."}]},
+{"id":"hold15","title":"14 Harbor View Ter","settings":"federal","label":{"category":"UNKNOWN","connector":"UNKNOWN","why":"Customer report and model prediction do not count when the state has not approved them."},"docs":[
+{"id":"D1","kind":"customer_report","title":"Homeowner survey","date":"2023-06-01","text":"Owner says pipe inside is galv and the one outside is copper."},
+{"id":"D2","kind":"prediction","title":"Predictive model run","date":"2023-09-15","text":"Model output: 82% likely non-lead."}]},
+{"id":"hold16","title":"601 Kestrel Ave","settings":"federal","label":{"category":"UNKNOWN","connector":"UNKNOWN","why":"System-side records disagree on material with no replacement in between and none says lead, so it is unknown."},"docs":[
+{"id":"D1","kind":"tap_card","title":"Tap card 601 Kestrel","date":"1970","text":"3/4 Cu main to curb."},
+{"id":"D2","kind":"gis","title":"GIS import","date":"2005","text":"Svc matl: PE (system side)."}]}
+]
