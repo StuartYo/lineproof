@@ -24,6 +24,12 @@ Records, addresses and the water district in the demo are made up.
 Every row uses the same model, Gemma 4 E2B (4-bit), with temperature 0. "Missed lead" counts lines whose answer is Lead or GRR but were called Non-lead, the mistake that leaves a lead pipe in the ground.
 
 <!-- results:start -->
+| Correct category (Lead or GRR called Non-lead) | District sample (24) | EPA & state examples (12) | Blind holdout (16) |
+|---|---|---|---|
+| Gemma 4 E2B alone | 10 (1) | 4 (1) | 7 (1) |
+| Gemma 4 E2B with all 11 rules in the prompt | 13 (2) | 4 (2) | 9 (2) |
+| No model: keyword reader + LineProof rules | 15 (0) | 9 (0) | 11 (0) |
+| **LineProof**: Gemma reads, code checks and decides | 21 (0) | 11 (0) | 12 (0) |
 <!-- results:end -->
 
 - **District sample** (`eval/dev.json`): written by me to cover each rule. I used it while building, so it flatters LineProof.

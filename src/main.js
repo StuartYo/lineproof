@@ -127,7 +127,7 @@ function renderVerdict(c, r, extra) {
     </div>`;
   const facts = r.kept.length ? `<table class="facts"><thead><tr><th>Use</th><th>Side</th><th>Fact</th><th>Quote</th><th class="doccol">Record</th></tr></thead><tbody>
       ${r.kept.map((f, i) => `<tr class="${o.skip.has(i) ? 'off' : ''}"><td><input type="checkbox" data-fact="${i}" ${o.skip.has(i) ? '' : 'checked'} aria-label="Use this fact"></td>
-        <td>${esc(f.part)}</td><td>${esc(f.material.replace(/_/g, ' '))}, ${esc(f.event)}${f.date ? ' ' + esc(f.date) : ''}${f.basis === 'needs_approval' ? ' <span class="muted">(needs state approval)</span>' : ''}</td>
+        <td>${esc(f.part)}</td><td>${esc(f.material.replace(/_/g, ' '))}, ${esc(f.event)}${f.date ? ' ' + esc(f.date) : ''}${f.basis === 'needs_approval' ? ' <span class="muted">(needs state approval)</span>' : ''}${f.note ? `<br><span class="muted">Checker: ${esc(f.note)}</span>` : ''}${f.model_part !== f.part ? `<br><span class="muted">Checker: side set from the record (model said ${esc(f.model_part)})</span>` : ''}</td>
         <td class="q">"${esc(f.quote)}"</td><td class="doccol">${esc(f.doc)}</td></tr>`).join('')}</tbody></table>` : '<p class="muted">The model returned no usable facts.</p>';
   const dropped = r.dropped.length ? `<ul class="dropped">${r.dropped.map((f) => `<li>Dropped "${esc(f.quote || '')}" (${esc(f.material || '?')}): ${esc(f.why)}</li>`).join('')}</ul>` : '';
   $('#verdict').innerHTML = `<div class="verdict-body">

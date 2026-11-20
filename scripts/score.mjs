@@ -53,8 +53,15 @@ for (const set of SETS) {
   const kept = rows.reduce((n, x) => n + x.facts_kept, 0), dropped = rows.reduce((n, x) => n + x.facts_dropped, 0);
   out.sets[set.key] = { n: rows.length, note: set.note, run_at: run.at, accuracy: acc, facts: { kept, dropped }, median_ms: median(rows.map((x) => x.ms).filter(Boolean)), rows };
 }
+// Scores of the same saved replies under the code frozen before the external and holdout runs (commit e7b9bd7).
+const FROZEN = 'eval/runs/results_frozen_e7b9bd7.json';
+if (fs.existsSync(FROZEN)) {
+  const f = JSON.parse(fs.readFileSync(FROZEN, 'utf8'));
+  out.frozen = { commit: 'e7b9bd7', sets: Object.fromEntries(Object.entries(f.sets).map(([k, v]) => [k, v.accuracy])) };
+}
 fs.writeFileSync('results.json', JSON.stringify(out, null, 1));
 for (const [k, v] of Object.entries(out.sets)) {
+  if (out.frozen?.sets[k]) console.log(`${k} frozen lineproof ${out.frozen.sets[k].lineproof.category}/${v.n} miss ${out.frozen.sets[k].lineproof.missed_lead}`);
   console.log(`${k} (${v.n})  ` + Object.keys(ARMS).map((a) => `${a} ${v.accuracy[a].category}/${v.n} miss ${v.accuracy[a].missed_lead}`).join(' | '));
 }
 function median(a) { if (!a.length) return null; const s = a.slice().sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; }

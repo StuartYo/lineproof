@@ -1,0 +1,757 @@
+{
+ "results": [
+  {
+   "id": "hold01",
+   "extract": {
+    "text": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"lead\",\"event\":\"present\",\"date\":\"\",\"quote\":\"3/4 Pb svc, main to curb stop.\"},{\"doc\":\"D2\",\"part\":\"customer\",\"material\":\"copper\",\"event\":\"installed\",\"date\":\"2009-05-14\",\"quote\":\"Meter to house replaced w/ 3/4 Cu type L.\"}]}",
+    "ms": 27436,
+    "raw": [
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"lead\", \"event\": \"present\", \"date\": \"\", \"quote\": \"3/4 Pb svc, main to curb stop.\"}]}",
+     "{\"facts\": [{\"part\": \"customer\", \"material\": \"copper\", \"event\": \"installed\", \"date\": \"2009-05-14\", \"quote\": \"Meter to house replaced w/ 3/4 Cu type L.\"}]}"
+    ]
+   },
+   "plain": {
+    "text": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The service line is identified as lead service line based on the historical date of the service line (1952) and the presence of lead in the records.\"}",
+    "ms": 2492,
+    "usage": {
+     "completion_tokens": 52,
+     "prompt_tokens": 279,
+     "total_tokens": 331,
+     "extra": {
+      "e2e_latency_s": 2.492,
+      "prefill_tokens_per_s": 418.2908545727136,
+      "decode_tokens_per_s": 28.06052269624106,
+      "time_to_first_token_s": 0.667,
+      "time_per_output_token_s": 0.03563725490166861,
+      "grammar_init_s": 0.027700000002980233,
+      "grammar_per_token_s": 0.0001250000005731215
+     }
+    }
+   },
+   "rules": {
+    "text": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The utility side [D2] was installed after the lead ban date, making it non-lead, but there is no record mentioning a connector.\"}",
+    "ms": 4723,
+    "usage": {
+     "completion_tokens": 51,
+     "prompt_tokens": 713,
+     "total_tokens": 764,
+     "extra": {
+      "e2e_latency_s": 4.723,
+      "prefill_tokens_per_s": 301.26336248936974,
+      "decode_tokens_per_s": 21.308331558721566,
+      "time_to_first_token_s": 2.366699999988079,
+      "time_per_output_token_s": 0.046929999997615816,
+      "grammar_init_s": 0,
+      "grammar_per_token_s": 0.00016274509768860005
+     }
+    }
+   }
+  },
+  {
+   "id": "hold02",
+   "extract": {
+    "text": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"copper\",\"event\":\"present\",\"date\":\"\",\"quote\":\"Svc 3/4 Cu, main to curb.\"},{\"doc\":\"D2\",\"part\":\"system\",\"material\":\"lead\",\"event\":\"present\",\"date\":\"1974-08-02\",\"quote\":\"found LSL on street side\"}]}",
+    "ms": 9046,
+    "raw": [
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"copper\", \"event\": \"present\", \"date\": \"\", \"quote\": \"Svc 3/4 Cu, main to curb.\"}]}",
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"lead\", \"event\": \"present\", \"date\": \"1974-08-02\", \"quote\": \"found LSL on street side\"}]}"
+    ]
+   },
+   "plain": {
+    "text": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"Record [D2] indicates the presence of a lead service line (LSL) found during a repair.\"}",
+    "ms": 2283,
+    "usage": {
+     "completion_tokens": 41,
+     "prompt_tokens": 280,
+     "total_tokens": 321,
+     "extra": {
+      "e2e_latency_s": 2.283,
+      "prefill_tokens_per_s": 391.1707180793039,
+      "decode_tokens_per_s": 25.622958170374034,
+      "time_to_first_token_s": 0.7157999999970198,
+      "time_per_output_token_s": 0.03902750000022352,
+      "grammar_init_s": 0.011400000005960465,
+      "grammar_per_token_s": 0.00013170731903576263
+     }
+    }
+   },
+   "rules": {
+    "text": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The street side found LSL (lead service line) indicates the connection is lead. The connector status is unknown because no record mentions a gooservice or pigtail.\"}",
+    "ms": 4751,
+    "usage": {
+     "completion_tokens": 54,
+     "prompt_tokens": 714,
+     "total_tokens": 768,
+     "extra": {
+      "e2e_latency_s": 4.751,
+      "prefill_tokens_per_s": 294.9316369955954,
+      "decode_tokens_per_s": 22.832033773621312,
+      "time_to_first_token_s": 2.420899999991059,
+      "time_per_output_token_s": 0.043798113208615555,
+      "grammar_init_s": 0,
+      "grammar_per_token_s": 0.00013333333338852273
+     }
+    }
+   }
+  },
+  {
+   "id": "hold03",
+   "extract": {
+    "text": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"lead\",\"event\":\"present\",\"date\":\"2019-03-11\",\"quote\":\"saw lead svc main to meter when we swapped the corp stop\"},{\"doc\":\"D1\",\"part\":\"connector\",\"material\":\"lead\",\"event\":\"present\",\"date\":\"2019-03-11\",\"quote\":\"also a lead gooseneck at the main\"}]}",
+    "ms": 7188,
+    "raw": [
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"lead\", \"event\": \"present\", \"date\": \"2019-03-11\", \"quote\": \"saw lead svc main to meter when we swapped the corp stop\"}, {\"part\": \"connector\", \"material\": \"lead\", \"event\": \"present\", \"date\": \"2019-03-11\", \"quote\": \"also a lead gooseneck at the main\"}]}"
+    ]
+   },
+   "plain": {
+    "text": "{\"category\": \"LEAD\", \"connector\": \"LEAD\", \"reason\": \"The record explicitly mentions a 'lead gooseneck' at the main, indicating a lead service line connection.\"}",
+    "ms": 2225,
+    "usage": {
+     "completion_tokens": 43,
+     "prompt_tokens": 253,
+     "total_tokens": 296,
+     "extra": {
+      "e2e_latency_s": 2.224,
+      "prefill_tokens_per_s": 420.265780730897,
+      "decode_tokens_per_s": 25.99492480082765,
+      "time_to_first_token_s": 0.602,
+      "time_per_output_token_s": 0.038469047618409004,
+      "grammar_init_s": 0.013099999994039536,
+      "grammar_per_token_s": 0.00013023255696130348
+     }
+    }
+   },
+   "rules": {
+    "text": "{\"category\": \"LEAD\", \"connector\": \"LEAD\", \"reason\": \"The record shows a lead service main to the meter and a lead gooservice at the main, resulting in a LEAD category and a LEAD connector.\"}",
+    "ms": 4599,
+    "usage": {
+     "completion_tokens": 50,
+     "prompt_tokens": 687,
+     "total_tokens": 737,
+     "extra": {
+      "e2e_latency_s": 4.599,
+      "prefill_tokens_per_s": 301.23651670691726,
+      "decode_tokens_per_s": 21.20661300073332,
+      "time_to_first_token_s": 2.2805999999940396,
+      "time_per_output_token_s": 0.04715510204130288,
+      "grammar_init_s": 0,
+      "grammar_per_token_s": 0.00015200000047683708
+     }
+    }
+   }
+  },
+  {
+   "id": "hold04",
+   "extract": {
+    "text": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"unknown\",\"event\":\"present\",\"date\":\"2021-09-30\",\"quote\":\"Exposed 1\\\" svc at curb and basement wall\"},{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"lead\",\"event\":\"present\",\"date\":\"2021-09-30\",\"quote\":\"Pb entire service\"}]}",
+    "ms": 7360,
+    "raw": [
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"unknown\", \"event\": \"present\", \"date\": \"2021-09-30\", \"quote\": \"Exposed 1\\\" svc at curb and basement wall\"}, {\"part\": \"system\", \"material\": \"lead\", \"event\": \"present\", \"date\": \"2021-09-30\", \"quote\": \"Pb entire service\"}]}"
+    ]
+   },
+   "plain": {
+    "text": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The record explicitly states 'Pb entire service,' indicating the presence of lead in the service line.\"}",
+    "ms": 2124,
+    "usage": {
+     "completion_tokens": 38,
+     "prompt_tokens": 249,
+     "total_tokens": 287,
+     "extra": {
+      "e2e_latency_s": 2.124,
+      "prefill_tokens_per_s": 413.6212624584718,
+      "decode_tokens_per_s": 24.40311304500486,
+      "time_to_first_token_s": 0.602,
+      "time_per_output_token_s": 0.04097837837966713,
+      "grammar_init_s": 0.014599999994039535,
+      "grammar_per_token_s": 0.00013684210416517754
+     }
+    }
+   },
+   "rules": {
+    "text": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The inspection revealed lead in the entire service line, classifying it as LEAD. No record mentions a connector.\"}",
+    "ms": 4398,
+    "usage": {
+     "completion_tokens": 40,
+     "prompt_tokens": 683,
+     "total_tokens": 723,
+     "extra": {
+      "e2e_latency_s": 4.398,
+      "prefill_tokens_per_s": 288.50215426314924,
+      "decode_tokens_per_s": 19.285926219793694,
+      "time_to_first_token_s": 2.367399999991059,
+      "time_per_output_token_s": 0.05185128204906599,
+      "grammar_init_s": 0,
+      "grammar_per_token_s": 0.00017250000014901152
+     }
+    }
+   }
+  },
+  {
+   "id": "hold05",
+   "extract": {
+    "text": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"lead\",\"event\":\"present\",\"date\":\"\",\"quote\":\"3/4 lead svc main to curb.\"},{\"doc\":\"D2\",\"part\":\"system\",\"material\":\"copper\",\"event\":\"installed\",\"date\":\"2015-06-22\",\"quote\":\"Replaced system side lead w/ new copper at curb\"}]}",
+    "ms": 8969,
+    "raw": [
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"lead\", \"event\": \"present\", \"date\": \"\", \"quote\": \"3/4 lead svc main to curb.\"}]}",
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"copper\", \"event\": \"installed\", \"date\": \"2015-06-22\", \"quote\": \"Replaced system side lead w/ new copper at curb\"}]}"
+    ]
+   },
+   "plain": {
+    "text": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"Record [D1] indicates a lead service line, but the connector type is not specified in the provided records.\"}",
+    "ms": 2120,
+    "usage": {
+     "completion_tokens": 42,
+     "prompt_tokens": 283,
+     "total_tokens": 325,
+     "extra": {
+      "e2e_latency_s": 2.12,
+      "prefill_tokens_per_s": 414.8343594326373,
+      "decode_tokens_per_s": 28.61330169484985,
+      "time_to_first_token_s": 0.6821999999880791,
+      "time_per_output_token_s": 0.03494878048904057,
+      "grammar_init_s": 0.008699999988079072,
+      "grammar_per_token_s": 0.00010952380938189368
+     }
+    }
+   },
+   "rules": {
+    "text": "{\"category\": \"LEAD\", \"connector\": \"NOT_LEAD\", \"reason\": \"The main service line (tap card) is lead, but the curb side replacement record shows the system side was lead and the customer side (G.I.) was not touched, implying the customer side is not lead.\"}",
+    "ms": 5251,
+    "usage": {
+     "completion_tokens": 66,
+     "prompt_tokens": 717,
+     "total_tokens": 783,
+     "extra": {
+      "e2e_latency_s": 5.25,
+      "prefill_tokens_per_s": 297.9802177703898,
+      "decode_tokens_per_s": 22.93254304269158,
+      "time_to_first_token_s": 2.4062000000029804,
+      "time_per_output_token_s": 0.04360615384601631,
+      "grammar_init_s": 0,
+      "grammar_per_token_s": 0.00016060606096730094
+     }
+    }
+   }
+  },
+  {
+   "id": "hold06",
+   "extract": {
+    "text": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"customer\",\"material\":\"galvanized\",\"event\":\"present\",\"date\":\"1979-04-03\",\"quote\":\"Meter to house 3/4 galv.\"},{\"doc\":\"D2\",\"part\":\"connector\",\"material\":\"brass\",\"event\":\"present\",\"date\":\"2018-11-05\",\"quote\":\"Goosneck is brass, not lead\"}]}",
+    "ms": 9753,
+    "raw": [
+     "{\"facts\": [{\"part\": \"customer\", \"material\": \"galvanized\", \"event\": \"present\", \"date\": \"1979-04-03\", \"quote\": \"Meter to house 3/4 galv.\"}]}",
+     "{\"facts\": [{\"part\": \"connector\", \"material\": \"brass\", \"event\": \"present\", \"date\": \"2018-11-05\", \"quote\": \"Goosneck is brass, not lead\"}]}"
+    ]
+   },
+   "plain": {
+    "text": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The records indicate the service line is galvanized, and the subsequent meter change did not indicate a lead connection.\"}",
+    "ms": 2291,
+    "usage": {
+     "completion_tokens": 42,
+     "prompt_tokens": 289,
+     "total_tokens": 331,
+     "extra": {
+      "e2e_latency_s": 2.29,
+      "prefill_tokens_per_s": 376.3020833333333,
+      "decode_tokens_per_s": 27.030590717087144,
+      "time_to_first_token_s": 0.768,
+      "time_per_output_token_s": 0.03699512195151026,
+      "grammar_init_s": 0.011300000011920929,
+      "grammar_per_token_s": 0.00009047618969565342
+     }
+    }
+   },
+   "rules": {
+    "text": "{\"category\": \"NON_LEAD\", \"connector\": \"NOT_LEAD\", \"reason\": \"The utility side is galvanized and the record indicates a non-lead pipe (3/4 galv.).\"}",
+    "ms": 4283,
+    "usage": {
+     "completion_tokens": 45,
+     "prompt_tokens": 723,
+     "total_tokens": 768,
+     "extra": {
+      "e2e_latency_s": 4.284,
+      "prefill_tokens_per_s": 296.0566725348483,
+      "decode_tokens_per_s": 23.971669844923568,
+      "time_to_first_token_s": 2.442100000008941,
+      "time_per_output_token_s": 0.04171590909057043,
+      "grammar_init_s": 0,
+      "grammar_per_token_s": 0.00010222222076521976
+     }
+    }
+   }
+  },
+  {
+   "id": "hold07",
+   "extract": {
+    "text": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"unknown\",\"event\":\"installed\",\"date\":\"1989\",\"quote\":\"New svc installed, no material noted.\"},{\"doc\":\"D2\",\"part\":\"customer\",\"material\":\"galvanized\",\"event\":\"present\",\"date\":\"\",\"quote\":\"Cust side 3/4 galv from meter to house.\"}]}",
+    "ms": 29227,
+    "raw": [
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"unknown\", \"event\": \"installed\", \"date\": \"1989\", \"quote\": \"New svc installed, no material noted.\"}]}",
+     "{\"facts\": [{\"part\": \"customer\", \"material\": \"galvanized\", \"event\": \"present\", \"date\": \"\", \"quote\": \"Cust side 3/4 galv from meter to house.\"}]}"
+    ]
+   },
+   "plain": {
+    "text": "{\"category\": \"GRR\", \"connector\": \"UNKNOWN\", \"reason\": \"The records indicate a galvanized service line (3/4 galv) was present in 1989, suggesting a galvanized requirement (GRR) rather than a lead service line.\"}",
+    "ms": 2776,
+    "usage": {
+     "completion_tokens": 57,
+     "prompt_tokens": 258,
+     "total_tokens": 315,
+     "extra": {
+      "e2e_latency_s": 2.776,
+      "prefill_tokens_per_s": 400.2482159515757,
+      "decode_tokens_per_s": 26.38398115374348,
+      "time_to_first_token_s": 0.6445999999940395,
+      "time_per_output_token_s": 0.037901785715084,
+      "grammar_init_s": 0.04079999999701977,
+      "grammar_per_token_s": 0.00012280701702101183
+     }
+    }
+   },
+   "rules": {
+    "text": "{\"category\": \"UNKNOWN\", \"connector\": \"UNKNOWN\", \"reason\": \"The utility side record is insufficient to determine the status of the customer side, resulting in an unknown lead status.\"}",
+    "ms": 3970,
+    "usage": {
+     "completion_tokens": 40,
+     "prompt_tokens": 692,
+     "total_tokens": 732,
+     "extra": {
+      "e2e_latency_s": 3.97,
+      "prefill_tokens_per_s": 303.16305966761126,
+      "decode_tokens_per_s": 23.210141046282907,
+      "time_to_first_token_s": 2.282600000008941,
+      "time_per_output_token_s": 0.04308461538453897,
+      "grammar_init_s": 0,
+      "grammar_per_token_s": 0.00011999999843537804
+     }
+    }
+   }
+  },
+  {
+   "id": "hold08",
+   "extract": {
+    "text": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"lead\",\"event\":\"present\",\"date\":\"\",\"quote\":\"3/4 Pb w/ pigtail at main.\"},{\"doc\":\"D2\",\"part\":\"system\",\"material\":\"copper\",\"event\":\"present\",\"date\":\"\",\"quote\":\"Svc material: Cu (system side).\"},{\"doc\":\"D3\",\"part\":\"customer\",\"material\":\"galvanized\",\"event\":\"present\",\"date\":\"1990-02-20\",\"quote\":\"Meter to house 3/4 G.I.\"}]}",
+    "ms": 13278,
+    "raw": [
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"lead\", \"event\": \"present\", \"date\": \"\", \"quote\": \"3/4 Pb w/ pigtail at main.\"}]}",
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"copper\", \"event\": \"present\", \"date\": \"\", \"quote\": \"Svc material: Cu (system side).\"}]}",
+     "{\"facts\": [{\"part\": \"customer\", \"material\": \"galvanized\", \"event\": \"present\", \"date\": \"1990-02-20\", \"quote\": \"Meter to house 3/4 G.I.\"}]}"
+    ]
+   },
+   "plain": {
+    "text": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"Record [D1] explicitly mentions lead (Pb) service line with a pigtail connector.\"}",
+    "ms": 2387,
+    "usage": {
+     "completion_tokens": 39,
+     "prompt_tokens": 289,
+     "total_tokens": 328,
+     "extra": {
+      "e2e_latency_s": 2.387,
+      "prefill_tokens_per_s": 384.6665779331111,
+      "decode_tokens_per_s": 23.33149137280498,
+      "time_to_first_token_s": 0.7512999999970198,
+      "time_per_output_token_s": 0.04286052631704431,
+      "grammar_init_s": 0.008200000002980233,
+      "grammar_per_token_s": 0.00016410256425539646
+     }
+    }
+   },
+   "rules": {
+    "text": "{\"category\": \"GRR\", \"connector\": \"UNKNOWN\", \"reason\": \"The system side is non-lead (Copper), but the tap card shows a lead component (3/4 Pb w/ pigtail), creating an unknown connector status.\"}",
+    "ms": 5165,
+    "usage": {
+     "completion_tokens": 54,
+     "prompt_tokens": 723,
+     "total_tokens": 777,
+     "extra": {
+      "e2e_latency_s": 5.165,
+      "prefill_tokens_per_s": 293.2349123952579,
+      "decode_tokens_per_s": 19.717261904106078,
+      "time_to_first_token_s": 2.4655999999940397,
+      "time_per_output_token_s": 0.05071698113376239,
+      "grammar_init_s": 0,
+      "grammar_per_token_s": 0.0001740740736325582
+     }
+    }
+   }
+  },
+  {
+   "id": "hold09",
+   "extract": {
+    "text": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"copper\",\"event\":\"present\",\"date\":\"1995-07-18\",\"quote\":\"3/4 type K Cu main to curb.\"},{\"doc\":\"D2\",\"part\":\"customer\",\"material\":\"copper\",\"event\":\"installed\",\"date\":\"1995-08-02\",\"quote\":\"Curb to house 3/4 Cu type L, new construction.\"}]}",
+    "ms": 9748,
+    "raw": [
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"copper\", \"event\": \"present\", \"date\": \"1995-07-18\", \"quote\": \"3/4 type K Cu main to curb.\"}]}",
+     "{\"facts\": [{\"part\": \"customer\", \"material\": \"copper\", \"event\": \"installed\", \"date\": \"1995-08-02\", \"quote\": \"Curb to house 3/4 Cu type L, new construction.\"}]}"
+    ]
+   },
+   "plain": {
+    "text": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The service line is classified as lead because the state's lead ban date is 1988-06-19, and the provided records do not show approval for the service line's status.\"}",
+    "ms": 2911,
+    "usage": {
+     "completion_tokens": 63,
+     "prompt_tokens": 283,
+     "total_tokens": 346,
+     "extra": {
+      "e2e_latency_s": 2.911,
+      "prefill_tokens_per_s": 406.5507829282648,
+      "decode_tokens_per_s": 28.101346146116793,
+      "time_to_first_token_s": 0.6961000000089407,
+      "time_per_output_token_s": 0.03558548386971796,
+      "grammar_init_s": 0.013100000008940696,
+      "grammar_per_token_s": 0.000123809522816113
+     }
+    }
+   },
+   "rules": {
+    "text": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The utility side [D2] is a new construction pipe installed after the lead ban date, making it non-lead. The connector status is unknown as no record mentions a gooservice or pigtail.\"}",
+    "ms": 5207,
+    "usage": {
+     "completion_tokens": 64,
+     "prompt_tokens": 717,
+     "total_tokens": 781,
+     "extra": {
+      "e2e_latency_s": 5.207,
+      "prefill_tokens_per_s": 299.61138272421596,
+      "decode_tokens_per_s": 22.47591865893855,
+      "time_to_first_token_s": 2.393100000008941,
+      "time_per_output_token_s": 0.04449206349135391,
+      "grammar_init_s": 0,
+      "grammar_per_token_s": 0.00014375000074505804
+     }
+    }
+   }
+  },
+  {
+   "id": "hold10",
+   "extract": {
+    "text": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"unknown\",\"event\":\"installed\",\"date\":\"1987\",\"quote\":\"Svc installed, no pipe type listed.\"},{\"doc\":\"D2\",\"part\":\"customer\",\"material\":\"galvanized\",\"event\":\"present\",\"date\":\"\",\"quote\":\"Meter to house galv 3/4.\"}]}",
+    "ms": 8626,
+    "raw": [
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"unknown\", \"event\": \"installed\", \"date\": \"1987\", \"quote\": \"Svc installed, no pipe type listed.\"}]}",
+     "{\"facts\": [{\"part\": \"customer\", \"material\": \"galvanized\", \"event\": \"present\", \"date\": \"\", \"quote\": \"Meter to house galv 3/4.\"}]}"
+    ]
+   },
+   "plain": {
+    "text": "{\"category\": \"GRR\", \"connector\": \"UNKNOWN\", \"reason\": \"The records indicate a galvanized service line (3/4) installed in 1987, classifying it as a galvanized requiring replacement (GRR) service line.\"}",
+    "ms": 2508,
+    "usage": {
+     "completion_tokens": 53,
+     "prompt_tokens": 255,
+     "total_tokens": 308,
+     "extra": {
+      "e2e_latency_s": 2.508,
+      "prefill_tokens_per_s": 436.1210877350782,
+      "decode_tokens_per_s": 27.12571726592979,
+      "time_to_first_token_s": 0.5847000000029803,
+      "time_per_output_token_s": 0.036865384616244286,
+      "grammar_init_s": 0.006099999994039536,
+      "grammar_per_token_s": 0.0001113207548294427
+     }
+    }
+   },
+   "rules": {
+    "text": "{\"category\": \"UNKNOWN\", \"connector\": \"UNKNOWN\", \"reason\": \"The utility side record is insufficient to determine the status of the customer side, resulting in an unknown lead status.\"}",
+    "ms": 3949,
+    "usage": {
+     "completion_tokens": 40,
+     "prompt_tokens": 689,
+     "total_tokens": 729,
+     "extra": {
+      "e2e_latency_s": 3.949,
+      "prefill_tokens_per_s": 303.03030302990584,
+      "decode_tokens_per_s": 23.371486785661787,
+      "time_to_first_token_s": 2.27370000000298,
+      "time_per_output_token_s": 0.04278717948802006,
+      "grammar_init_s": 0,
+      "grammar_per_token_s": 0.00014500000029802314
+     }
+    }
+   }
+  },
+  {
+   "id": "hold11",
+   "extract": {
+    "text": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"lead\",\"event\":\"present\",\"date\":\"\",\"quote\":\"3/4 lead svc.\"},{\"doc\":\"D2\",\"part\":\"system\",\"material\":\"plastic\",\"event\":\"installed\",\"date\":\"2003-10-09\",\"quote\":\"Full svc renewal main to house, new 1\\\" PE poly pipe both sides.\"},{\"doc\":\"D3\",\"part\":\"system\",\"material\":\"plastic\",\"event\":\"present\",\"date\":\"2022-04-12\",\"quote\":\"Opened meter pit, PEX/poly both sides of meter confirmed by insp.\"}]}",
+    "ms": 14784,
+    "raw": [
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"lead\", \"event\": \"present\", \"date\": \"\", \"quote\": \"3/4 lead svc.\"}]}",
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"plastic\", \"event\": \"installed\", \"date\": \"2003-10-09\", \"quote\": \"Full svc renewal main to house, new 1\\\" PE poly pipe both sides.\"}]}",
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"plastic\", \"event\": \"present\", \"date\": \"2022-04-12\", \"quote\": \"Opened meter pit, PEX/poly both sides of meter confirmed by insp.\"}]}"
+    ]
+   },
+   "plain": {
+    "text": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"Record [D1] indicates a lead service line from 1958, and subsequent records do not explicitly state the material or connection type.\"}",
+    "ms": 2625,
+    "usage": {
+     "completion_tokens": 49,
+     "prompt_tokens": 310,
+     "total_tokens": 359,
+     "extra": {
+      "e2e_latency_s": 2.626,
+      "prefill_tokens_per_s": 389.7410108165509,
+      "decode_tokens_per_s": 26.324448832627045,
+      "time_to_first_token_s": 0.7953999999910593,
+      "time_per_output_token_s": 0.037987499998882415,
+      "grammar_init_s": 0.011899999991059304,
+      "grammar_per_token_s": 0.00010408163374784035
+     }
+    }
+   },
+   "rules": {
+    "text": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The utility side is confirmed as non-lead (PEX/poly) by inspection, but the connector status is unknown as no record mentions a gooservice or pigtail.\"}",
+    "ms": 5234,
+    "usage": {
+     "completion_tokens": 58,
+     "prompt_tokens": 744,
+     "total_tokens": 802,
+     "extra": {
+      "e2e_latency_s": 5.233,
+      "prefill_tokens_per_s": 288.4168088065675,
+      "decode_tokens_per_s": 21.560691454890183,
+      "time_to_first_token_s": 2.5796000000089405,
+      "time_per_output_token_s": 0.046380701754961104,
+      "grammar_init_s": 0,
+      "grammar_per_token_s": 0.00016206896587692458
+     }
+    }
+   }
+  },
+  {
+   "id": "hold12",
+   "extract": {
+    "text": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"copper\",\"event\":\"present\",\"date\":\"2016-02-08\",\"quote\":\"whole svc main to house is Cu\"}]}",
+    "ms": 4695,
+    "raw": [
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"copper\", \"event\": \"present\", \"date\": \"2016-02-08\", \"quote\": \"whole svc main to house is Cu\"}]}"
+    ]
+   },
+   "plain": {
+    "text": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The record indicates the service line material is copper (Cu), which is not lead, and no specific connector type was mentioned.\"}",
+    "ms": 2158,
+    "usage": {
+     "completion_tokens": 46,
+     "prompt_tokens": 245,
+     "total_tokens": 291,
+     "extra": {
+      "e2e_latency_s": 2.158,
+      "prefill_tokens_per_s": 422.04995693367783,
+      "decode_tokens_per_s": 28.62413332550326,
+      "time_to_first_token_s": 0.5805,
+      "time_per_output_token_s": 0.03493555555476083,
+      "grammar_init_s": 0.006600000008940697,
+      "grammar_per_token_s": 0.00013043478196081906
+     }
+    }
+   },
+   "rules": {
+    "text": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The field technician statement indicates the entire service main to the house is copper, which is non-lead. No record mentions a connector.\"}",
+    "ms": 4275,
+    "usage": {
+     "completion_tokens": 48,
+     "prompt_tokens": 679,
+     "total_tokens": 727,
+     "extra": {
+      "e2e_latency_s": 4.274,
+      "prefill_tokens_per_s": 300.8284967424174,
+      "decode_tokens_per_s": 23.373781578985867,
+      "time_to_first_token_s": 2.2571000000089407,
+      "time_per_output_token_s": 0.04278297872429197,
+      "grammar_init_s": 0,
+      "grammar_per_token_s": 0.00012500000031044078
+     }
+    }
+   }
+  },
+  {
+   "id": "hold13",
+   "extract": {
+    "text": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"building\",\"material\":\"unknown\",\"event\":\"present\",\"date\":\"1994\",\"quote\":\"Year built 1994\"},{\"doc\":\"D2\",\"part\":\"building\",\"material\":\"unknown\",\"event\":\"present\",\"date\":\"1994\",\"quote\":\"New bldg constr, single family\"}]}",
+    "ms": 35359,
+    "raw": [
+     "{\"facts\": [{\"part\": \"building\", \"material\": \"unknown\", \"event\": \"present\", \"date\": \"1994\", \"quote\": \"Year built 1994\"}]}",
+     "{\"facts\": [{\"part\": \"building\", \"material\": \"unknown\", \"event\": \"present\", \"date\": \"1994\", \"quote\": \"New bldg constr, single family\"}]}"
+    ]
+   },
+   "plain": {
+    "text": "{\"category\": \"UNKNOWN\", \"connector\": \"UNKNOWN\", \"reason\": \"The records provided do not contain sufficient information to classify the service line as lead, galvanized, or non-lead, nor is there any mention of a specific connector.\"}",
+    "ms": 3026,
+    "usage": {
+     "completion_tokens": 51,
+     "prompt_tokens": 255,
+     "total_tokens": 306,
+     "extra": {
+      "e2e_latency_s": 3.026,
+      "prefill_tokens_per_s": 412.2211445238555,
+      "decode_tokens_per_s": 20.871597929459586,
+      "time_to_first_token_s": 0.6185999999940396,
+      "time_per_output_token_s": 0.047912000000178825,
+      "grammar_init_s": 0.05779999999701977,
+      "grammar_per_token_s": 0.0002117647069926356
+     }
+    }
+   },
+   "rules": {
+    "text": "{\"category\": \"UNKNOWN\", \"connector\": \"UNKNOWN\", \"reason\": \"The utility side record is missing, and the customer side record does not provide sufficient evidence to determine the status of either side.\"}",
+    "ms": 4567,
+    "usage": {
+     "completion_tokens": 43,
+     "prompt_tokens": 689,
+     "total_tokens": 732,
+     "extra": {
+      "e2e_latency_s": 4.567,
+      "prefill_tokens_per_s": 292.50689874761196,
+      "decode_tokens_per_s": 19.06231561750864,
+      "time_to_first_token_s": 2.3555,
+      "time_per_output_token_s": 0.052459523809452874,
+      "grammar_init_s": 0,
+      "grammar_per_token_s": 0.00017441860465116269
+     }
+    }
+   }
+  },
+  {
+   "id": "hold14",
+   "extract": {
+    "text": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"unknown\",\"event\":\"installed\",\"date\":\"1988\",\"quote\":\"svc installed 1988, size 3/4, matl blank.\"}]}",
+    "ms": 5636,
+    "raw": [
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"unknown\", \"event\": \"installed\", \"date\": \"1988\", \"quote\": \"svc installed 1988, size 3/4, matl blank.\"}]}"
+    ]
+   },
+   "plain": {
+    "text": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The service line was installed in 1988, which is before the federal lead ban date of 1988-06-19, indicating it is a lead service line.\"}",
+    "ms": 3530,
+    "usage": {
+     "completion_tokens": 60,
+     "prompt_tokens": 242,
+     "total_tokens": 302,
+     "extra": {
+      "e2e_latency_s": 3.53,
+      "prefill_tokens_per_s": 409.96103675268995,
+      "decode_tokens_per_s": 20.157157498530168,
+      "time_to_first_token_s": 0.590300000011921,
+      "time_per_output_token_s": 0.0496101694930408,
+      "grammar_init_s": 0.012400000005960464,
+      "grammar_per_token_s": 0.0001983333339293799
+     }
+    }
+   },
+   "rules": {
+    "text": "{\"category\": \"UNKNOWN\", \"connector\": \"UNKNOWN\", \"reason\": \"The tap card record is insufficient to determine the current lead status, resulting in an unknown category.\"}",
+    "ms": 4297,
+    "usage": {
+     "completion_tokens": 37,
+     "prompt_tokens": 676,
+     "total_tokens": 713,
+     "extra": {
+      "e2e_latency_s": 4.297,
+      "prefill_tokens_per_s": 300.0976649213303,
+      "decode_tokens_per_s": 17.67478397488839,
+      "time_to_first_token_s": 2.2525999999940396,
+      "time_per_output_token_s": 0.056577777777695,
+      "grammar_init_s": 0,
+      "grammar_per_token_s": 0.00021891892197969788
+     }
+    }
+   }
+  },
+  {
+   "id": "hold15",
+   "extract": {
+    "text": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"galvanized\",\"event\":\"present\",\"date\":\"\",\"quote\":\"pipe inside is galv\"},{\"doc\":\"D2\",\"part\":\"system\",\"material\":\"not_lead\",\"event\":\"present\",\"date\":\"2023-09-15\",\"quote\":\"Model output: 82% likely non-lead.\"}]}",
+    "ms": 10234,
+    "raw": [
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"galvanized\", \"event\": \"present\", \"date\": \"\", \"quote\": \"pipe inside is galv\"}]}",
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"not_lead\", \"event\": \"present\", \"date\": \"2023-09-15\", \"quote\": \"Model output: 82% likely non-lead.\"}]}"
+    ]
+   },
+   "plain": {
+    "text": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The homeowner survey indicates the interior pipe is galvanized, and the predictive model suggests an 82% likelihood of being non-lead.\"}",
+    "ms": 3188,
+    "usage": {
+     "completion_tokens": 48,
+     "prompt_tokens": 272,
+     "total_tokens": 320,
+     "extra": {
+      "e2e_latency_s": 3.188,
+      "prefill_tokens_per_s": 401.7725258493353,
+      "decode_tokens_per_s": 18.799248030235663,
+      "time_to_first_token_s": 0.677,
+      "time_per_output_token_s": 0.05319361702083273,
+      "grammar_init_s": 0.018899999991059305,
+      "grammar_per_token_s": 0.00020625000229726226
+     }
+    }
+   },
+   "rules": {
+    "text": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The homeowner survey indicates the pipe inside is galvanized and the outside is copper, suggesting the service line is non-lead, but there is no material evidence to confirm this status definitively.\"}",
+    "ms": 5447,
+    "usage": {
+     "completion_tokens": 57,
+     "prompt_tokens": 706,
+     "total_tokens": 763,
+     "extra": {
+      "e2e_latency_s": 5.446,
+      "prefill_tokens_per_s": 285.6218140629708,
+      "decode_tokens_per_s": 18.908059560178323,
+      "time_to_first_token_s": 2.4717999999970197,
+      "time_per_output_token_s": 0.052887500000585404,
+      "grammar_init_s": 0.00009999999403953553,
+      "grammar_per_token_s": 0.00020350877077955962
+     }
+    }
+   }
+  },
+  {
+   "id": "hold16",
+   "extract": {
+    "text": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"copper\",\"event\":\"present\",\"date\":\"\",\"quote\":\"3/4 Cu main to curb.\"},{\"doc\":\"D2\",\"part\":\"system\",\"material\":\"plastic\",\"event\":\"present\",\"date\":\"2005\",\"quote\":\"Svc matl: PE (system side).\"}]}",
+    "ms": 9663,
+    "raw": [
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"copper\", \"event\": \"present\", \"date\": \"\", \"quote\": \"3/4 Cu main to curb.\"}]}",
+     "{\"facts\": [{\"part\": \"system\", \"material\": \"plastic\", \"event\": \"present\", \"date\": \"2005\", \"quote\": \"Svc matl: PE (system side).\"}]}"
+    ]
+   },
+   "plain": {
+    "text": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The service line is identified as non-lead based on the state's lead ban date of 1988-06-19 and the lack of approved evidence for a lead service line.\"}",
+    "ms": 3717,
+    "usage": {
+     "completion_tokens": 63,
+     "prompt_tokens": 256,
+     "total_tokens": 319,
+     "extra": {
+      "e2e_latency_s": 3.717,
+      "prefill_tokens_per_s": 426.45343994881046,
+      "decode_tokens_per_s": 19.98710509339206,
+      "time_to_first_token_s": 0.6002999999970198,
+      "time_per_output_token_s": 0.050032258064756474,
+      "grammar_init_s": 0.0145,
+      "grammar_per_token_s": 0.00019999999990538952
+     }
+    }
+   },
+   "rules": {
+    "text": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The utility side [D2] is PE (Polyethylene), which is non-lead. Since there is no material evidence (like a tap card or permit) for the utility side, it is classified as NON_LEAD, and the connector status is UNKNOWN as no record mentions a gooservice or pigtail.\"}",
+    "ms": 6995,
+    "usage": {
+     "completion_tokens": 88,
+     "prompt_tokens": 690,
+     "total_tokens": 778,
+     "extra": {
+      "e2e_latency_s": 6.994,
+      "prefill_tokens_per_s": 300.07828128999364,
+      "decode_tokens_per_s": 18.614801977008476,
+      "time_to_first_token_s": 2.2994000000059605,
+      "time_per_output_token_s": 0.053720689655206676,
+      "grammar_init_s": 0,
+      "grammar_per_token_s": 0.00023295454562387706
+     }
+    }
+   }
+  }
+ ],
+ "model": "gemma-4-E2B-it-q4f16_1-MLC",
+ "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+ "at": "2026-11-20T13:08:16.498Z"
+}

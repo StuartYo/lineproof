@@ -150,7 +150,10 @@ function sideStatus(side, facts, settings, step, todo) {
   const name = side === 'system' ? 'System side' : 'Customer side';
   const mats = facts.filter((f) => f.material !== 'unknown' && f.part !== 'building');
   const everLead = mats.some((f) => f.material === 'lead' || f.material === 'lead_lined_galvanized');
-  const current = mats.filter((f) => f.event !== 'removed');
+  // A later record that a pipe was removed retires older records of that material (fix after the frozen run, ext02).
+  const kindOf = (m) => (m === 'lead' || m === 'lead_lined_galvanized' ? 'lead' : m === 'galvanized' ? 'galv' : 'non');
+  const removals = mats.filter((f) => f.event === 'removed');
+  const current = mats.filter((f) => f.event !== 'removed' && !removals.some((r) => kindOf(r.material) === kindOf(f.material) && sortKey(r.eff) > sortKey(f.eff)));
   const out = { status: 'UNKNOWN', everLead, current: null, installDate: null, origin: null, facts };
 
   // Install dates (with or without material) for R09 and R07.

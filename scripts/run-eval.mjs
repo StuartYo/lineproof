@@ -39,3 +39,4 @@ for (let i = 0; i < todo.length; i += BATCH) {
   }
 }
 console.log('wrote', out, res.results.length, 'of', items.length);
+process.exit(0);

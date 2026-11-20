@@ -26,6 +26,7 @@ const SIDE_WORDS = {
   system: /main to (the )?(curb|meter)|utility side|utility-owned|utility owned|system side|public side/,
 };
 const KIND_SIDE = { tap_card: 'system', permit: 'customer' };
+const NO_RECORD = /no (tap card|record|card|records)/;
 const BUILT = /\b(year built|built|constructed|construction)\b/;
 const INSTALL = /install|tap(ped)?\b|tap made|tapped|\blaid\b|\bset\b|new service|put in|replac/;
 const NEGATED_LEAD =/\b(no|not|non|without|free of)[- ]+lead\b|lead[- ]?free|nonlead/;
@@ -73,6 +74,8 @@ export function checkFacts(rawFacts, docs) {
     if (material === 'unknown' && BUILT.test(q) && !INSTALL.test(q)) part = 'building';
     // A date with no material only helps if the quote says the pipe was put in then.
     if (material === 'unknown' && part !== 'building') {
+      // Fix after the frozen run (ext04): the year must be in the quote itself, and "no tap card" is not an installation.
+      if (!/\b(1[89]|20)\d{2}\b|\b\d{1,2}\/\d{1,2}\/\d{2,4}\b/.test(q) || NO_RECORD.test(q)) { drop('no installation date in the quote'); continue; }
       if (INSTALL.test(q)) event = 'installed';
       else { drop('gives a date but does not say the pipe was installed then'); continue; }
     }
