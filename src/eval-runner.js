@@ -2,7 +2,7 @@
 // and as a judge with every rule pasted in. Raw replies are returned untouched; scoring is in Node.
 // The laptop GPU is shared, so a lost device is caught, the model reloaded and the call retried.
 import { loadModel, ask, resetModel, MODEL_ID } from './llm.js';
-import { extractPrompt, baselinePlainPrompt, baselineRulesPrompt, EXTRACT_SCHEMA, BASELINE_SCHEMA } from './core/prompts.js';
+import { extractAll, baselinePlainPrompt, baselineRulesPrompt, BASELINE_GRAMMAR } from './core/prompts.js';
 import { presetOf } from './core/presets.js';
 
 const log = (s) => { document.getElementById('log').textContent += '\n' + s; console.log(s); };
@@ -21,9 +21,9 @@ window.runEval = async (items, arms = ['extract', 'plain', 'rules']) => {
   for (const it of items) {
     const s = presetOf(it);
     const r = { id: it.id };
-    if (arms.includes('extract')) r.extract = await tryAsk(extractPrompt(it.docs), { maxTokens: 900, schema: EXTRACT_SCHEMA });
-    if (arms.includes('plain')) r.plain = await tryAsk(baselinePlainPrompt(it.docs, s), { maxTokens: 300, schema: BASELINE_SCHEMA });
-    if (arms.includes('rules')) r.rules = await tryAsk(baselineRulesPrompt(it.docs, s), { maxTokens: 300, schema: BASELINE_SCHEMA });
+    if (arms.includes('extract')) r.extract = await extractAll(tryAsk, it.docs);
+    if (arms.includes('plain')) r.plain = await tryAsk(baselinePlainPrompt(it.docs, s), { maxTokens: 300, grammar: BASELINE_GRAMMAR });
+    if (arms.includes('rules')) r.rules = await tryAsk(baselineRulesPrompt(it.docs, s), { maxTokens: 300, grammar: BASELINE_GRAMMAR });
     out.push(r);
     log(`${it.id} ` + arms.map((a) => `${a} ${r[a]?.ms}ms`).join(' '));
   }

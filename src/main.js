@@ -228,12 +228,12 @@ async function runLive() {
   try {
     stage.textContent = 'Checking for WebGPU...';
     const { webgpuStatus, loadModel, ask } = await import('./llm.js');
-    const { extractPrompt, EXTRACT_SCHEMA } = await import('./core/prompts.js');
+    const { extractAll } = await import('./core/prompts.js');
     const g = await webgpuStatus();
     if (!g.ok) throw new Error(`${g.why} Use Chrome or Edge on a computer with a GPU, or look at the sample district, which shows saved runs of the same model.`);
     await loadModel((p) => { stage.textContent = `Loading Gemma 4: ${Math.round((p.progress || 0) * 100)}%`; });
     stage.textContent = 'Reading the records...';
-    const out = await ask(extractPrompt(docs), { maxTokens: 900, schema: EXTRACT_SCHEMA });
+    const out = await extractAll(ask, docs);
     stage.textContent = `Read in ${(out.ms / 1000).toFixed(1)} s. Quotes checked and rules applied below.`;
     const item = { id: 'live', title: 'Your service line', docs, settings: 'federal', label: {} };
     delete state.over.live;

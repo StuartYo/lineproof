@@ -21,17 +21,21 @@ for (let i = 0; i < todo.length; i += BATCH) {
   });
   try {
     const page = await ctx.newPage();
-    page.on('console', (m) => { const t = m.text(); console.log('>', t.slice(0, 160)); });
+    page.on('console', (m) => { const t = m.text(); if (!/powerPreference|404/.test(t)) console.log('>', t.slice(0, 160)); });
     await page.goto('http://localhost:5179/eval.html');
     await page.waitForFunction(() => window.__ready === true, null, { timeout: 120000 });
-    const r = await page.evaluate(async (items) => await window.runEval(items), chunk);
+    const r = await Promise.race([
+      page.evaluate(async (items) => await window.runEval(items), chunk),
+      new Promise((_, no) => setTimeout(() => no(new Error('batch took over 20 minutes')), 20 * 60 * 1000)),
+    ]);
     Object.assign(res, { model: r.model, ua: r.ua, at: res.at || r.at });
     res.results.push(...r.results);
     fs.writeFileSync(out, JSON.stringify(res, null, 1));
   } catch (e) {
     console.log('batch failed, will retry on next run:', e.message.split('\n')[0]);
   } finally {
-    await ctx.close().catch(() => {});
+    await Promise.race([ctx.close().catch(() => {}), new Promise((r) => setTimeout(r, 15000))]);
+    try { ctx.browser()?.close(); } catch {}
   }
 }
 console.log('wrote', out, res.results.length, 'of', items.length);

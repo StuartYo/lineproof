@@ -25,27 +25,43 @@ export const EXTRACT_SCHEMA = {
   required: ['facts'],
 };
 
-/** The reader: copy facts out of the records. No classification. */
-export function extractPrompt(docs) {
-  return `You read water utility records about ONE water service line and copy facts out of them. Do not decide whether the line is lead.
+/** The reader: one call per record, copy facts out of it. No classification. */
+export function extractPrompt(doc) {
+  return `You copy facts out of ONE water utility record about a water service line. Do not decide whether the line is lead.
 
-Return one JSON object: {"facts": [ ... ]}. One fact per pipe material, installation, removal or building date you find.
-Each fact:
-- "doc": the record id, like "D1"
-- "part": "system" = utility side, from the water main to the curb stop or meter (tap cards, curb box, utility side).
-          "customer" = property side, from the curb stop or meter to the building (plumbing permits, house side, basement, meter-to-house).
-          "whole" = the record says it covers the whole line, main to house.
+Return one JSON object: {"facts": [...]}, one fact per pipe material, installation, removal or building date in the record.
+- "part": "system" = utility side, from the water main to the curb stop or meter. Tap cards describe this side unless they say otherwise.
+          "customer" = property side, from the curb stop or meter to the building. Plumbing permits describe this side unless they say otherwise.
+          "whole" = the record says it covers main to house, or the entire service.
           "connector" = a gooseneck, pigtail or connector at the main.
-          "building" = the house or building itself (when it was built), not the pipe.
-- "material": one of ${MATERIALS.join(', ')}. "galv", "G.I." and "steel" mean galvanized. "Cu", "type K" mean copper. "PE", "poly", "PEX", "PVC" mean plastic. Use "not_lead" when the record only says the pipe is not lead. Use "unknown" when the record gives a date but no material.
-- "event": "present" = the record says the pipe is this material; "installed" = the pipe was put in (new or as a replacement); "removed" = this pipe was taken out.
-- "date": the date of that event as YYYY or YYYY-MM-DD if the record gives it, else "".
-- "quote": words copied EXACTLY from the record, 3 to 20 words, that show this fact.
-If a record says lead was replaced with copper, give two facts: the lead "removed" and the copper "installed".
-If a record says "no lead", the material is not_lead, never lead.
+          "building" = the house itself, for example the year it was built.
+- "material": ${MATERIALS.join(', ')}. galv, G.I., steel = galvanized. Cu, type K, type L = copper. PE, poly, PEX, PVC = plastic. Pb = lead. Use "not_lead" if the record only says the pipe is not lead. Use "unknown" if the record gives a date for the pipe but no material.
+- "event": "present" = the pipe is this material; "installed" = the pipe was put in (new or as a replacement); "removed" = this pipe was taken out.
+- "date": YYYY or YYYY-MM-DD for that event if known, else "".
+- "quote": 3 to 15 words copied EXACTLY from the record text that show this fact.
 
-Records:
-${docsBlock(docs)}`;
+Example record (Field note, 2023): "Dug at curb box: utility side 3/4 galv. House was built 1950. Old lead gooseneck still at the main."
+{"facts": [{"part": "system", "material": "galvanized", "event": "present", "date": "2023", "quote": "utility side 3/4 galv."}, {"part": "building", "material": "unknown", "event": "present", "date": "1950", "quote": "House was built 1950"}, {"part": "connector", "material": "lead", "event": "present", "date": "", "quote": "Old lead gooseneck still at the main"}]}
+
+Example record (Work order, 2011): "Pulled lead svc from main to meter and put in 1 in. PE. No lead on house side, it's copper."
+{"facts": [{"part": "system", "material": "lead", "event": "removed", "date": "2011", "quote": "Pulled lead svc from main to meter"}, {"part": "system", "material": "plastic", "event": "installed", "date": "2011", "quote": "put in 1 in. PE"}, {"part": "customer", "material": "copper", "event": "present", "date": "", "quote": "No lead on house side, it's copper"}]}
+
+Record (${doc.title}${doc.date ? ', ' + doc.date : ''}): "${doc.text}"
+`;
+}
+
+/** Runs the reader on every record and joins the facts, tagging each with its record id. */
+export async function extractAll(ask, docs) {
+  const facts = [];
+  let ms = 0;
+  const raw = [];
+  for (const d of docs) {
+    const r = await ask(extractPrompt(d), { maxTokens: 500, grammar: EXTRACT_GRAMMAR });
+    ms += r.ms;
+    raw.push(r.text);
+    for (const f of parseJSON(r.text)?.facts || []) facts.push({ doc: d.id, ...f });
+  }
+  return { text: JSON.stringify({ facts }), ms, raw };
 }
 
 export const BASELINE_SCHEMA = {
@@ -108,3 +124,22 @@ export function parseJSON(text) {
   if (m) { try { return JSON.parse(m[0]); } catch {} }
   return null;
 }
+
+// Grammars keep the output to exact JSON with no room for runaway whitespace (the JSON-schema mode let
+// Gemma pad one reply with blank lines until it hit the token limit).
+const alt = (xs) => xs.map((x) => `"\\"${x}\\""`).join(' | ');
+export const EXTRACT_GRAMMAR = String.raw`root ::= "{\"facts\": [" facts "]}"
+facts ::= "" | fact (", " fact)*
+fact ::= "{\"part\": " part ", \"material\": " mat ", \"event\": " ev ", \"date\": " date ", \"quote\": " str "}"
+date ::= "\"\"" | "\"" [12] [0-9] [0-9] [0-9] ("-" [01] [0-9] "-" [0-3] [0-9])? "\""
+str ::= "\"" chr+ "\""
+chr ::= [^"\\\n] | "\\" ["\\/nt]
+part ::=` + alt(['system', 'customer', 'whole', 'connector', 'building']) + `
+mat ::= ` + alt(MATERIALS) + `
+ev ::= ` + alt(['present', 'installed', 'removed']) + '\n';
+
+export const BASELINE_GRAMMAR = String.raw`root ::= "{\"category\": " cat ", \"connector\": " con ", \"reason\": " str "}"
+str ::= "\"" chr+ "\""
+chr ::= [^"\\\n] | "\\" ["\\/nt]
+cat ::=` + alt(['LEAD', 'GRR', 'NON_LEAD', 'UNKNOWN']) + `
+con ::= ` + alt(['LEAD', 'NOT_LEAD', 'UNKNOWN']) + '\n';
