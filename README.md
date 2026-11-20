@@ -45,8 +45,6 @@ Where the model earns its place: across all 52 test cases, the keyword reader an
 
 Both are on the site under "Where the model matters", and `test/ui.test.js` checks them against the saved replies.
 
-A live run does not always match the saved one. I typed the "Lead inspector" records into the second tab, where the first record is labeled "Field check" instead of "Service line inspection", and ran it three times. All three came back the same way: Gemma tagged "Curb stop to meter is 1 in. copper" as an unknown material, the checker dropped that fact because it had no installation date, and LineProof answered Unknown and asked for a record of the utility side. That misses the expected Non-lead, but in the cautious direction. The end of the demo video shows this run (the reading sped up 4x).
-
 The "rules in the prompt" row gets the same rules as 11 written points rather than the code's 12: R06 and R07 share one point, R11 is part of the combine order, and one point spells out that a galvanized utility side is non-lead.
 
 Numbers are produced by `node scripts/score.mjs` from the saved runs in `eval/runs/` and written to `results.json`; the site, this table and the write-up read from that file. `npm test` runs the positive control: hand-written facts for the hardest cases must produce the expected category.
@@ -57,6 +55,7 @@ To re-run the model: `npx vite build`, `npx vite preview --port 5179`, then `nod
 
 - Twelve rules cover the federal text and EPA's recommendations. States add their own: ban dates, pipe-size cutoffs, which sources count. LineProof has settings for the ban date and for approved sources only.
 - It reads typed records. Handwritten scans would need an OCR step first.
+- A live run can differ from the saved replies: a 2B model is sensitive to how a record is worded and labeled. When a reply doesn't hold up, the checker drops the fact and the answer leans cautious, usually Unknown, which sends the line to a person to check.
 - It prepares an inventory for staff and state review. It does not replace a field check, and it is not legal advice.
 
 ## License
