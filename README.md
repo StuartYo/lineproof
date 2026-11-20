@@ -32,6 +32,8 @@ Every row uses the same model, Gemma 4 E2B (4-bit), with temperature 0. "Missed 
 | **LineProof**: Gemma reads, code checks and decides | 21 (0) | 11 (0) | 12 (0) |
 <!-- results:end -->
 
+The code was frozen at commit `e7b9bd7` before the EPA/state and holdout runs. Under that code LineProof scored 9/12 (one missed lead) and 13/16. The EPA/state run exposed two bugs (a removal record didn't retire the older lead record; a record's own date was taken as an installation date). The table shows the fixed code on the same saved model replies; the frozen scores are in `results.json` under `frozen`.
+
 - **District sample** (`eval/dev.json`): written by me to cover each rule. I used it while building, so it flatters LineProof.
 - **EPA & state examples** (`eval/external.json`): each case restates a worked example from EPA or a state agency, and the expected answer is the one that document gives (source in each case).
 - **Blind holdout** (`eval/holdout.json`): written by a separate agent that saw only `eval/LABELING_GUIDE.md`, run once after the code was frozen.
