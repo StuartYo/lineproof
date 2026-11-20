@@ -9,7 +9,7 @@ import { keywordFacts } from '../src/core/keyword.js';
 const SETS = [
   { key: 'dev', cases: 'eval/dev.json', run: 'eval/runs/dev.json', note: 'written by me, used while building' },
   { key: 'external', cases: 'eval/external.json', run: 'eval/runs/external.json', note: 'answers from EPA and state agency worked examples' },
-  { key: 'holdout', cases: 'eval/holdout.json', run: 'eval/runs/holdout.json', note: 'written blind by a separate agent, run once on frozen code' },
+  { key: 'holdout', cases: 'eval/holdout.json', run: 'eval/runs/holdout.json', note: 'written blind by a separate agent from the labeling guide, first run after the code froze' },
 ];
 const ARMS = {
   plain: 'Gemma 4 E2B alone, asked for the category',

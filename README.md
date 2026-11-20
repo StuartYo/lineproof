@@ -16,8 +16,8 @@ Records, addresses and the water district in the demo are made up.
 
 `npm install`, then `npm run dev` and open http://localhost:5179.
 
-- **Sample district** (default): 24 made-up service lines and 12 cases restating published EPA and state examples. Gemma's real outputs are saved, and the checker and rules run live on them. Switch a fact off, or change the state's lead ban date, and the category follows.
-- **Paste your own records**: runs Gemma 4 E2B on your GPU (Chrome or Edge with WebGPU; first load downloads about 2.8 GB, then works offline). Nothing leaves the page.
+- **Test cases** (default): 24 made-up service lines, 12 cases restating published EPA and state examples, and the 16 blind holdout cases. The model output on this tab is Gemma's saved reply from the test run (labeled on screen); nothing is generated while you click. The checker and rules run live on the saved replies: switch a fact off, or change the state's lead ban date, and the category follows. Each line also shows the answers of the three comparison arms below.
+- **Run Gemma 4 on your records**: runs Gemma 4 E2B on your GPU (Chrome or Edge with WebGPU; first load downloads about 2.8 GB, then works offline). Nothing leaves the page.
 
 ## Test results
 
@@ -36,7 +36,18 @@ The code was frozen at commit `e7b9bd7` before the EPA/state and holdout runs. U
 
 - **District sample** (`eval/dev.json`): written by me to cover each rule. I used it while building, so it flatters LineProof.
 - **EPA & state examples** (`eval/external.json`): each case restates a worked example from EPA or a state agency, and the expected answer is the one that document gives (source in each case).
-- **Blind holdout** (`eval/holdout.json`): written by a separate agent that saw only `eval/LABELING_GUIDE.md`, run once after the code was frozen.
+- **Blind holdout** (`eval/holdout.json`): written by a separate agent that saw only `eval/LABELING_GUIDE.md`, run once after the code was frozen. The labeling guide and the rules code are both my reading of the regulation, so the holdout tests how well the records are read, not whether that reading of the rules is right. The EPA & state set is the check on that.
+
+Where the model earns its place: across all 52 test cases, the keyword reader and LineProof disagree on 12. LineProof is right on 10, the keyword reader on 1, neither on 1. Two of them:
+
+- "Lead inspector M. Ortiz on site. Curb stop to meter is 1 in. copper." The keyword reader sees "lead" and calls the line Lead. Gemma reads copper on both sides, and LineProof answers Non-lead, the expected answer (district sample, 400 Upland Ave).
+- "saw lead svc main to meter when we swapped the corp stop, also a lead gooseneck at the main." The keyword reader files the whole sentence under the gooseneck, which doesn't count toward the category, and answers Unknown. Gemma splits it into a lead service line and a lead gooseneck, and LineProof answers Lead (blind holdout, 1507 Marlow Ave).
+
+Both are on the site under "Where the model matters", and `test/ui.test.js` checks them against the saved replies.
+
+A live run does not always match the saved one. I typed the "Lead inspector" records into the second tab, where the first record is labeled "Field check" instead of "Service line inspection", and ran it three times. All three came back the same way: Gemma tagged "Curb stop to meter is 1 in. copper" as an unknown material, the checker dropped that fact because it had no installation date, and LineProof answered Unknown and asked for a record of the utility side. That misses the expected Non-lead, but in the cautious direction. The end of the demo video shows this run (the reading sped up 4x).
+
+The "rules in the prompt" row gets the same rules as 11 written points rather than the code's 12: R06 and R07 share one point, R11 is part of the combine order, and one point spells out that a galvanized utility side is non-lead.
 
 Numbers are produced by `node scripts/score.mjs` from the saved runs in `eval/runs/` and written to `results.json`; the site, this table and the write-up read from that file. `npm test` runs the positive control: hand-written facts for the hardest cases must produce the expected category.
 

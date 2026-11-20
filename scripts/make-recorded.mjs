@@ -1,7 +1,7 @@
-// Copies the saved model replies for the two demo sets into src/recorded.json for the site.
+// Copies the saved model replies for the three test sets into src/recorded.json for the site.
 import fs from 'node:fs';
 const out = { model: null, at: null, results: {} };
-for (const f of ['eval/runs/dev.json', 'eval/runs/external.json']) {
+for (const f of ['eval/runs/dev.json', 'eval/runs/external.json', 'eval/runs/holdout.json']) {
   if (!fs.existsSync(f)) continue;
   const run = JSON.parse(fs.readFileSync(f, 'utf8'));
   out.model = run.model; out.at = out.at || run.at;

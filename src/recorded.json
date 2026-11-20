@@ -217,6 +217,102 @@
    "plain": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"Operator statements and inventory records suggest the service line is not lead, with no specific connector mentioned in the records.\"}",
    "rules": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The operator statement suggests no lead service was found, and the inventory record has no material records, leading to a non-lead status but unknown connector.\"}",
    "ms": 6946
+  },
+  "hold01": {
+   "extract": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"lead\",\"event\":\"present\",\"date\":\"\",\"quote\":\"3/4 Pb svc, main to curb stop.\"},{\"doc\":\"D2\",\"part\":\"customer\",\"material\":\"copper\",\"event\":\"installed\",\"date\":\"2009-05-14\",\"quote\":\"Meter to house replaced w/ 3/4 Cu type L.\"}]}",
+   "plain": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The service line is identified as lead service line based on the historical date of the service line (1952) and the presence of lead in the records.\"}",
+   "rules": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The utility side [D2] was installed after the lead ban date, making it non-lead, but there is no record mentioning a connector.\"}",
+   "ms": 27436
+  },
+  "hold02": {
+   "extract": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"copper\",\"event\":\"present\",\"date\":\"\",\"quote\":\"Svc 3/4 Cu, main to curb.\"},{\"doc\":\"D2\",\"part\":\"system\",\"material\":\"lead\",\"event\":\"present\",\"date\":\"1974-08-02\",\"quote\":\"found LSL on street side\"}]}",
+   "plain": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"Record [D2] indicates the presence of a lead service line (LSL) found during a repair.\"}",
+   "rules": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The street side found LSL (lead service line) indicates the connection is lead. The connector status is unknown because no record mentions a gooservice or pigtail.\"}",
+   "ms": 9046
+  },
+  "hold03": {
+   "extract": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"lead\",\"event\":\"present\",\"date\":\"2019-03-11\",\"quote\":\"saw lead svc main to meter when we swapped the corp stop\"},{\"doc\":\"D1\",\"part\":\"connector\",\"material\":\"lead\",\"event\":\"present\",\"date\":\"2019-03-11\",\"quote\":\"also a lead gooseneck at the main\"}]}",
+   "plain": "{\"category\": \"LEAD\", \"connector\": \"LEAD\", \"reason\": \"The record explicitly mentions a 'lead gooseneck' at the main, indicating a lead service line connection.\"}",
+   "rules": "{\"category\": \"LEAD\", \"connector\": \"LEAD\", \"reason\": \"The record shows a lead service main to the meter and a lead gooservice at the main, resulting in a LEAD category and a LEAD connector.\"}",
+   "ms": 7188
+  },
+  "hold04": {
+   "extract": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"unknown\",\"event\":\"present\",\"date\":\"2021-09-30\",\"quote\":\"Exposed 1\\\" svc at curb and basement wall\"},{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"lead\",\"event\":\"present\",\"date\":\"2021-09-30\",\"quote\":\"Pb entire service\"}]}",
+   "plain": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The record explicitly states 'Pb entire service,' indicating the presence of lead in the service line.\"}",
+   "rules": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The inspection revealed lead in the entire service line, classifying it as LEAD. No record mentions a connector.\"}",
+   "ms": 7360
+  },
+  "hold05": {
+   "extract": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"lead\",\"event\":\"present\",\"date\":\"\",\"quote\":\"3/4 lead svc main to curb.\"},{\"doc\":\"D2\",\"part\":\"system\",\"material\":\"copper\",\"event\":\"installed\",\"date\":\"2015-06-22\",\"quote\":\"Replaced system side lead w/ new copper at curb\"}]}",
+   "plain": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"Record [D1] indicates a lead service line, but the connector type is not specified in the provided records.\"}",
+   "rules": "{\"category\": \"LEAD\", \"connector\": \"NOT_LEAD\", \"reason\": \"The main service line (tap card) is lead, but the curb side replacement record shows the system side was lead and the customer side (G.I.) was not touched, implying the customer side is not lead.\"}",
+   "ms": 8969
+  },
+  "hold06": {
+   "extract": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"customer\",\"material\":\"galvanized\",\"event\":\"present\",\"date\":\"1979-04-03\",\"quote\":\"Meter to house 3/4 galv.\"},{\"doc\":\"D2\",\"part\":\"connector\",\"material\":\"brass\",\"event\":\"present\",\"date\":\"2018-11-05\",\"quote\":\"Goosneck is brass, not lead\"}]}",
+   "plain": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The records indicate the service line is galvanized, and the subsequent meter change did not indicate a lead connection.\"}",
+   "rules": "{\"category\": \"NON_LEAD\", \"connector\": \"NOT_LEAD\", \"reason\": \"The utility side is galvanized and the record indicates a non-lead pipe (3/4 galv.).\"}",
+   "ms": 9753
+  },
+  "hold07": {
+   "extract": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"unknown\",\"event\":\"installed\",\"date\":\"1989\",\"quote\":\"New svc installed, no material noted.\"},{\"doc\":\"D2\",\"part\":\"customer\",\"material\":\"galvanized\",\"event\":\"present\",\"date\":\"\",\"quote\":\"Cust side 3/4 galv from meter to house.\"}]}",
+   "plain": "{\"category\": \"GRR\", \"connector\": \"UNKNOWN\", \"reason\": \"The records indicate a galvanized service line (3/4 galv) was present in 1989, suggesting a galvanized requirement (GRR) rather than a lead service line.\"}",
+   "rules": "{\"category\": \"UNKNOWN\", \"connector\": \"UNKNOWN\", \"reason\": \"The utility side record is insufficient to determine the status of the customer side, resulting in an unknown lead status.\"}",
+   "ms": 29227
+  },
+  "hold08": {
+   "extract": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"lead\",\"event\":\"present\",\"date\":\"\",\"quote\":\"3/4 Pb w/ pigtail at main.\"},{\"doc\":\"D2\",\"part\":\"system\",\"material\":\"copper\",\"event\":\"present\",\"date\":\"\",\"quote\":\"Svc material: Cu (system side).\"},{\"doc\":\"D3\",\"part\":\"customer\",\"material\":\"galvanized\",\"event\":\"present\",\"date\":\"1990-02-20\",\"quote\":\"Meter to house 3/4 G.I.\"}]}",
+   "plain": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"Record [D1] explicitly mentions lead (Pb) service line with a pigtail connector.\"}",
+   "rules": "{\"category\": \"GRR\", \"connector\": \"UNKNOWN\", \"reason\": \"The system side is non-lead (Copper), but the tap card shows a lead component (3/4 Pb w/ pigtail), creating an unknown connector status.\"}",
+   "ms": 13278
+  },
+  "hold09": {
+   "extract": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"copper\",\"event\":\"present\",\"date\":\"1995-07-18\",\"quote\":\"3/4 type K Cu main to curb.\"},{\"doc\":\"D2\",\"part\":\"customer\",\"material\":\"copper\",\"event\":\"installed\",\"date\":\"1995-08-02\",\"quote\":\"Curb to house 3/4 Cu type L, new construction.\"}]}",
+   "plain": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The service line is classified as lead because the state's lead ban date is 1988-06-19, and the provided records do not show approval for the service line's status.\"}",
+   "rules": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The utility side [D2] is a new construction pipe installed after the lead ban date, making it non-lead. The connector status is unknown as no record mentions a gooservice or pigtail.\"}",
+   "ms": 9748
+  },
+  "hold10": {
+   "extract": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"unknown\",\"event\":\"installed\",\"date\":\"1987\",\"quote\":\"Svc installed, no pipe type listed.\"},{\"doc\":\"D2\",\"part\":\"customer\",\"material\":\"galvanized\",\"event\":\"present\",\"date\":\"\",\"quote\":\"Meter to house galv 3/4.\"}]}",
+   "plain": "{\"category\": \"GRR\", \"connector\": \"UNKNOWN\", \"reason\": \"The records indicate a galvanized service line (3/4) installed in 1987, classifying it as a galvanized requiring replacement (GRR) service line.\"}",
+   "rules": "{\"category\": \"UNKNOWN\", \"connector\": \"UNKNOWN\", \"reason\": \"The utility side record is insufficient to determine the status of the customer side, resulting in an unknown lead status.\"}",
+   "ms": 8626
+  },
+  "hold11": {
+   "extract": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"lead\",\"event\":\"present\",\"date\":\"\",\"quote\":\"3/4 lead svc.\"},{\"doc\":\"D2\",\"part\":\"system\",\"material\":\"plastic\",\"event\":\"installed\",\"date\":\"2003-10-09\",\"quote\":\"Full svc renewal main to house, new 1\\\" PE poly pipe both sides.\"},{\"doc\":\"D3\",\"part\":\"system\",\"material\":\"plastic\",\"event\":\"present\",\"date\":\"2022-04-12\",\"quote\":\"Opened meter pit, PEX/poly both sides of meter confirmed by insp.\"}]}",
+   "plain": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"Record [D1] indicates a lead service line from 1958, and subsequent records do not explicitly state the material or connection type.\"}",
+   "rules": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The utility side is confirmed as non-lead (PEX/poly) by inspection, but the connector status is unknown as no record mentions a gooservice or pigtail.\"}",
+   "ms": 14784
+  },
+  "hold12": {
+   "extract": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"copper\",\"event\":\"present\",\"date\":\"2016-02-08\",\"quote\":\"whole svc main to house is Cu\"}]}",
+   "plain": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The record indicates the service line material is copper (Cu), which is not lead, and no specific connector type was mentioned.\"}",
+   "rules": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The field technician statement indicates the entire service main to the house is copper, which is non-lead. No record mentions a connector.\"}",
+   "ms": 4695
+  },
+  "hold13": {
+   "extract": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"building\",\"material\":\"unknown\",\"event\":\"present\",\"date\":\"1994\",\"quote\":\"Year built 1994\"},{\"doc\":\"D2\",\"part\":\"building\",\"material\":\"unknown\",\"event\":\"present\",\"date\":\"1994\",\"quote\":\"New bldg constr, single family\"}]}",
+   "plain": "{\"category\": \"UNKNOWN\", \"connector\": \"UNKNOWN\", \"reason\": \"The records provided do not contain sufficient information to classify the service line as lead, galvanized, or non-lead, nor is there any mention of a specific connector.\"}",
+   "rules": "{\"category\": \"UNKNOWN\", \"connector\": \"UNKNOWN\", \"reason\": \"The utility side record is missing, and the customer side record does not provide sufficient evidence to determine the status of either side.\"}",
+   "ms": 35359
+  },
+  "hold14": {
+   "extract": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"unknown\",\"event\":\"installed\",\"date\":\"1988\",\"quote\":\"svc installed 1988, size 3/4, matl blank.\"}]}",
+   "plain": "{\"category\": \"LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The service line was installed in 1988, which is before the federal lead ban date of 1988-06-19, indicating it is a lead service line.\"}",
+   "rules": "{\"category\": \"UNKNOWN\", \"connector\": \"UNKNOWN\", \"reason\": \"The tap card record is insufficient to determine the current lead status, resulting in an unknown category.\"}",
+   "ms": 5636
+  },
+  "hold15": {
+   "extract": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"galvanized\",\"event\":\"present\",\"date\":\"\",\"quote\":\"pipe inside is galv\"},{\"doc\":\"D2\",\"part\":\"system\",\"material\":\"not_lead\",\"event\":\"present\",\"date\":\"2023-09-15\",\"quote\":\"Model output: 82% likely non-lead.\"}]}",
+   "plain": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The homeowner survey indicates the interior pipe is galvanized, and the predictive model suggests an 82% likelihood of being non-lead.\"}",
+   "rules": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The homeowner survey indicates the pipe inside is galvanized and the outside is copper, suggesting the service line is non-lead, but there is no material evidence to confirm this status definitively.\"}",
+   "ms": 10234
+  },
+  "hold16": {
+   "extract": "{\"facts\":[{\"doc\":\"D1\",\"part\":\"system\",\"material\":\"copper\",\"event\":\"present\",\"date\":\"\",\"quote\":\"3/4 Cu main to curb.\"},{\"doc\":\"D2\",\"part\":\"system\",\"material\":\"plastic\",\"event\":\"present\",\"date\":\"2005\",\"quote\":\"Svc matl: PE (system side).\"}]}",
+   "plain": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The service line is identified as non-lead based on the state's lead ban date of 1988-06-19 and the lack of approved evidence for a lead service line.\"}",
+   "rules": "{\"category\": \"NON_LEAD\", \"connector\": \"UNKNOWN\", \"reason\": \"The utility side [D2] is PE (Polyethylene), which is non-lead. Since there is no material evidence (like a tap card or permit) for the utility side, it is classified as NON_LEAD, and the connector status is UNKNOWN as no record mentions a gooservice or pigtail.\"}",
+   "ms": 9663
   }
  }
 }

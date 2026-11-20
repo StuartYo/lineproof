@@ -1,17 +1,20 @@
 import './style.css';
 import devCases from '../eval/dev.json';
 import extCases from '../eval/external.json';
+import holdCases from '../eval/holdout.json';
 import recorded from './recorded.json';
 import results from '../results.json';
 import { decide } from './core/pipeline.js';
 import { parseJSON } from './core/prompts.js';
 import { PRESETS } from './core/presets.js';
 import { CAT_LABEL, CONNECTOR_LABEL, RULES } from './core/rules.js';
+import { keywordFacts } from './core/keyword.js';
+import { plainError } from './errors.js';
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-const SETS = { dev: devCases, external: extCases };
+const SETS = { dev: devCases, external: extCases, holdout: holdCases };
 const MEANING = {
   LEAD: 'Part of this line is lead. It goes on the replacement list.',
   GRR: 'Galvanized pipe that is or may have been downstream of lead. It must be replaced like a lead line.',
@@ -44,6 +47,8 @@ function run(c, reply) {
   return decide(c, reply, settingsFor(o), o.skip);
 }
 const rec = (id) => recorded.results?.[id] || {};
+const keywordCat = (c) => decide(c, JSON.stringify(keywordFacts(c.docs)), settingsFor(caseOver(c))).category;
+const RECORDED_NOTE = 'Saved replies: every model output on this tab is what Gemma 4 E2B returned in the test run on November 20, 2026. Nothing is generated while you click; the quote checker and the rules run live. To run the model yourself, use the second tab.';
 
 // ---------- left column ----------
 function renderList() {
@@ -88,7 +93,7 @@ function highlight(text, marks) {
 function renderDocs(c, r) {
   const o = caseOver(c);
   $('#rec-title').textContent = c.title;
-  $('#rec-sub').textContent = state.mode === 'live' ? 'Your records' : (state.set === 'external' ? 'Records restating a published example' : 'Made-up records');
+  $('#rec-sub').textContent = state.mode === 'live' ? 'Your records' : ({ external: 'Records restating a published example', holdout: 'Made-up records, written blind' }[state.set] || 'Made-up records');
   $('#docs').innerHTML = c.docs.map((d) => {
     const marks = [
       ...r.kept.map((f, i) => (f.doc === d.id ? { quote: f.quote, cls: o.skip.has(i) ? 'off' : '' } : null)).filter(Boolean),
@@ -120,9 +125,11 @@ function renderVerdict(c, r, extra) {
   const rules = parseJSON(extra.rules)?.category;
   const want = c.label?.category;
   const mark = (v) => !want ? '' : v === want ? '<span class="mark ok">matches expected</span>' : `<span class="mark bad">${v ? 'does not match' : 'no answer'}</span>`;
+  const kw = state.mode === 'live' ? null : keywordCat(c);
   const compare = state.mode === 'live' ? '' : `<div class="compare">
       <div><span class="lbl">Gemma 4 alone</span>${plain ? `<span class="cat ${plain}">${shortCat(plain)}</span>` : '<span class="muted">no answer</span>'}${mark(plain)}</div>
       <div><span class="lbl">Gemma with all rules pasted</span>${rules ? `<span class="cat ${rules}">${shortCat(rules)}</span>` : '<span class="muted">no answer</span>'}${mark(rules)}</div>
+      <div><span class="lbl">No model: keywords + same rules</span><span class="cat ${kw}">${shortCat(kw)}</span>${mark(kw)}</div>
       <div><span class="lbl">Expected</span><span class="cat ${want}">${shortCat(want)}</span>${c.source ? `<span class="src">${linkify(c.source)}</span>` : '<span class="src">From the labeling guide</span>'}</div>
     </div>`;
   const facts = r.kept.length ? `<table class="facts"><thead><tr><th>Use</th><th>Side</th><th>Fact</th><th>Quote</th><th class="doccol">Record</th></tr></thead><tbody>
@@ -136,7 +143,7 @@ function renderVerdict(c, r, extra) {
     ${compare}
     <div class="sect"><h3>How LineProof got there</h3><ol class="steps">${r.steps.map((s) => `<li><span class="rid" title="${esc(RULES[s.rule]?.title)}">${s.rule}</span><span>${esc(s.text)}<span class="cite">${esc(RULES[s.rule]?.cite || '')}</span></span></li>`).join('')}</ol></div>
     ${r.todo.length ? `<div class="sect"><h3>What would settle it</h3><ul class="todo">${r.todo.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>` : ''}
-    <div class="sect"><h3>Facts the model pulled out</h3>${facts}${dropped}</div>
+    <div class="sect"><h3>Facts the model pulled out${state.mode === 'live' ? '' : ' (saved reply)'}</h3>${facts}${dropped}</div>
     <div class="settings" role="group" aria-label="State rules">
       <label>Lead ban date <select id="preset">${Object.entries(PRESET_LABEL).map(([k, v]) => `<option value="${k}" ${o.preset === k ? 'selected' : ''}>${v}</option>`).join('')}</select></label>
       <label><input type="checkbox" id="approved" ${o.approved ? 'checked' : ''}> State accepts staff statements, customer reports and predictions</label>
@@ -182,7 +189,11 @@ function renderResults() {
       const v = sets[k].accuracy[a];
       return `<td>${v.category} / ${sets[k].n} <small>· ${v.missed_lead} missed lead</small></td>`;
     }).join('')}</tr>`).join('')}</tbody></table>`;
-  $('#results-note').textContent = order.map((k) => `${head[k]}: ${sets[k].note}.`).join(' ');
+  const fz = results.frozen?.sets || {};
+  const frozen = ['external', 'holdout'].filter((k) => fz[k] && sets[k]).map((k) => `${head[k]} ${fz[k].lineproof.category}/${sets[k].n} (${fz[k].lineproof.missed_lead} missed lead) frozen, ${sets[k].accuracy.lineproof.category}/${sets[k].n} fixed`).join('; ');
+  $('#results-note').textContent = order.map((k) => `${head[k]}: ${sets[k].note}.`).join(' ')
+    + (frozen ? ` The code was frozen at commit ${results.frozen.commit} before the EPA & state and holdout runs. The EPA & state run exposed two bugs, fixed afterwards; the table shows the fixed code on the same saved replies. LineProof, frozen vs fixed: ${frozen}.` : '')
+    + " The holdout's labeling guide and the rules code are the same person's reading of the regulation, so the holdout tests how well records are read, not whether that reading of the rules is right; the EPA & state set is the check on that.";
 }
 function renderRules() {
   $('#rule-table').innerHTML = `<table class="rtable"><thead><tr><th>Rule</th><th style="text-align:left">What it says</th><th style="text-align:left">Source</th></tr></thead><tbody>
@@ -230,7 +241,7 @@ async function runLive() {
     const { webgpuStatus, loadModel, ask } = await import('./llm.js');
     const { extractAll } = await import('./core/prompts.js');
     const g = await webgpuStatus();
-    if (!g.ok) throw new Error(`${g.why} Use Chrome or Edge on a computer with a GPU, or look at the sample district, which shows saved runs of the same model.`);
+    if (!g.ok) throw Object.assign(new Error(g.why), { kind: 'gpu' });
     await loadModel((p) => { stage.textContent = `Loading Gemma 4: ${Math.round((p.progress || 0) * 100)}%`; });
     stage.textContent = 'Reading the records...';
     const out = await extractAll(ask, docs);
@@ -240,8 +251,9 @@ async function runLive() {
     state.live = { item, reply: out.text };
     refresh();
   } catch (e) {
-    stage.textContent = 'Could not run the model here. ' + (e?.message || e);
+    stage.innerHTML = `${esc(plainError(e))} <a href="#desk" id="to-sample">See the test cases</a>, which show saved runs of the same model.`;
     stage.classList.add('err');
+    $('#to-sample').addEventListener('click', (ev) => { ev.preventDefault(); setMode('recorded'); $('#desk').scrollIntoView(); });
   } finally { btn.disabled = false; }
 }
 
@@ -250,8 +262,8 @@ function setMode(m) {
   $('#tab-recorded').classList.toggle('on', m === 'recorded'); $('#tab-recorded').setAttribute('aria-selected', m === 'recorded');
   $('#tab-live').classList.toggle('on', m === 'live'); $('#tab-live').setAttribute('aria-selected', m === 'live');
   $('#modenote').textContent = m === 'live'
-    ? 'Your records stay on this page. Gemma 4 E2B runs on your GPU through WebLLM (Chrome or Edge with WebGPU).'
-    : 'Made-up records for a made-up utility. Gemma 4\'s real outputs are saved; the checker and the rules run live in your browser.';
+    ? 'Live: Gemma 4 E2B runs on your GPU through WebLLM (Chrome or Edge with WebGPU). Your records stay on this page. A small model can read the same words differently when the wording or record type changes; the checker drops any fact it cannot verify.'
+    : RECORDED_NOTE;
   $('#desk .lines').hidden = m === 'live';
   if (m === 'live') { renderLiveForm(); $('#rec-title').textContent = 'Your records'; $('#rec-sub').textContent = ''; }
   else $('#live-form').hidden = true;
@@ -265,14 +277,27 @@ $('#linelist').addEventListener('click', (e) => {
   if (!b) return;
   state.id = b.dataset.id;
   refresh();
-  if (window.innerWidth < 760) $('#rec-title').scrollIntoView({ behavior: 'smooth' });
+  if (window.innerWidth < 760) $('#verdict').scrollIntoView({ behavior: 'smooth' });
 });
 document.querySelectorAll('.filter .chipbtn').forEach((b) => b.addEventListener('click', () => { state.set = b.dataset.set; state.id = SETS[state.set][0].id; refresh(); }));
 $('#export').addEventListener('click', exportCsv);
 $('#tab-recorded').addEventListener('click', () => setMode('recorded'));
 $('#tab-live').addEventListener('click', () => setMode('live'));
+function openLine(id) {
+  const s = Object.keys(SETS).find((k) => SETS[k].some((c) => c.id === id));
+  if (!s) return false;
+  state.set = s; state.id = id;
+  return true;
+}
+document.querySelectorAll('#callout a[data-line]').forEach((a) => a.addEventListener('click', (e) => {
+  e.preventDefault();
+  if (state.mode !== 'recorded') setMode('recorded');
+  openLine(a.dataset.line); refresh();
+  $(window.innerWidth < 760 ? '#verdict' : '#desk').scrollIntoView({ behavior: 'smooth' });
+}));
+$('#modenote').textContent = RECORDED_NOTE;
 const deep = new URLSearchParams(location.search).get('line');
-if (deep) { const s = Object.keys(SETS).find((k) => SETS[k].some((c) => c.id === deep)); if (s) { state.set = s; state.id = deep; } }
+if (deep) openLine(deep);
 renderResults();
 renderRules();
 refresh();

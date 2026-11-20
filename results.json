@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-20T13:12:23.822Z",
+ "generated": "2026-11-20T14:06:25.404Z",
  "model": "gemma-4-E2B-it-q4f16_1-MLC",
  "arms": {
   "plain": "Gemma 4 E2B alone, asked for the category",
@@ -654,7 +654,7 @@
   },
   "holdout": {
    "n": 16,
-   "note": "written blind by a separate agent, run once on frozen code",
+   "note": "written blind by a separate agent from the labeling guide, first run after the code froze",
    "run_at": "2026-11-20T13:08:16.498Z",
    "accuracy": {
     "plain": {

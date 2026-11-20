@@ -15,7 +15,7 @@
         <span>LineProof</span>
       </a>
       <nav class="toplinks" aria-label="Sections">
-        <a href="#results">Test results</a>
+        <a href="#results">Results</a>
         <a href="#how">How it decides</a>
         <a href="https://github.com/StuartYo/lineproof" target="_blank" rel="noopener">Code</a>
       </nav>
@@ -24,37 +24,32 @@
 
   <main>
     <section class="wrap intro">
-      <div class="intro-text">
-        <h1>Is this service line lead? Show the record that says so.</h1>
-        <p class="lede">US water utilities must sort every service line into <b>Lead</b>, <b>Galvanized requiring replacement</b>, <b>Non-lead</b> or <b>Unknown</b> by November 1, 2027. LineProof reads the old tap cards, permits and field notes, quotes the line behind each fact, and applies the federal rules in plain code.</p>
-      </div>
-      <div class="intro-steps" aria-label="How to use">
-        <ol>
-          <li><span>1</span>Pick a service line from the list.</li>
-          <li><span>2</span>Read the records; highlighted words are what the model pulled out.</li>
-          <li><span>3</span>Switch a fact off or change the state rule and watch the category follow.</li>
-        </ol>
-      </div>
+      <h1>Is this service line lead? Show the record that says so.</h1>
+      <p class="lede">Every US water system must sort each service line into <b>Lead</b>, <b>Galvanized requiring replacement</b>, <b>Non-lead</b> or <b>Unknown</b> by November 1, 2027. Pick a line: Gemma 4 reads its old records and quotes each fact, then twelve federal rules in plain code decide.</p>
     </section>
 
     <section class="wrap modebar" aria-label="Mode">
       <div class="seg" role="tablist">
-        <button role="tab" id="tab-recorded" aria-selected="true" class="on">Sample district (recorded runs)</button>
-        <button role="tab" id="tab-live" aria-selected="false">Paste your own records</button>
+        <button role="tab" id="tab-recorded" aria-selected="true" class="on">Test cases (saved model replies)</button>
+        <button role="tab" id="tab-live" aria-selected="false">Run Gemma 4 on your records</button>
       </div>
-      <p class="modenote" id="modenote">Made-up records for a made-up utility. Gemma 4's real outputs are saved; the checker and the rules run live in your browser.</p>
+      <p class="modenote" id="modenote"></p>
     </section>
+
+    <p class="wrap callout" id="callout"><b>Where the model matters.</b> Keyword matching reads "Lead inspector" as a lead pipe (<a href="/?line=dev24" data-line="dev24">400 Upland Ave</a>) and drops a lead pipe when the same sentence also mentions a lead gooseneck (<a href="/?line=hold03" data-line="hold03">1507 Marlow Ave, blind holdout</a>). Gemma reads both right. Across all 52 test cases the two disagree on 12: Gemma is right on 10, keywords on 1.</p>
 
     <section class="wrap desk" id="desk">
       <aside class="panel lines" aria-label="Service lines">
         <div class="panel-head">
           <h2>Service lines</h2>
+          <a class="ghost small jump" href="#verdict">Jump to result</a>
           <button class="ghost small" id="export">Export CSV</button>
         </div>
         <div class="tally" id="tally"></div>
         <div class="filter" role="group" aria-label="Show">
           <button class="chipbtn on" data-set="dev">District sample</button>
-          <button class="chipbtn" data-set="external">EPA &amp; state examples</button>
+          <button class="chipbtn" data-set="external">EPA &amp; state</button>
+          <button class="chipbtn" data-set="holdout">Blind holdout</button>
         </div>
         <ul id="linelist" class="linelist"></ul>
       </aside>
@@ -90,7 +85,7 @@
         </div>
         <div>
           <h3>Rules decide</h3>
-          <p>Twelve rules from 40 CFR 141.2 and 141.84 and EPA's inventory guidance, written as code and tested. Each step on screen names its rule. When records conflict, it takes the cautious answer EPA recommends and says what would settle it.</p>
+          <p>Twelve rules from 40 CFR 141.2 and 141.84 and EPA's inventory guidance, written as code and tested. Each step on screen names its rule. When records conflict, it takes the cautious answer EPA recommends and says what would settle it. The "rules in the prompt" comparison gets the same rules as 11 written points: R06 and R07 share one point, R11 is part of the combine order, and one point says a galvanized utility side is non-lead.</p>
         </div>
       </div>
       <div id="rule-table"></div>
